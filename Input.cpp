@@ -37,37 +37,26 @@ void Input::SetInFileName(std::string buf){
 }
 
 
+// Check to see if user input is valid.
 void Input::checkInput(vector<string> vs){
     string param_type = trim(vs[0]);
-    if( strcmp(param_type.c_str(),"obsrange")==0  ||
-        strcmp(param_type.c_str(),"calcrange")==0 ){
-        if(vs.size()<3){
-            retError(param_type);
-        }
+    if(compStrings(3, param_type.c_str(),"obsrange","calcrange")){
+        if(vs.size()<3){retError(param_type);}
         if(!isPositiveFloat(vs[1].c_str()) || !isPositiveFloat(vs[2].c_str())){
             retError(param_type);
         }
     }
-    else if( strcmp(param_type.c_str(),"obsIthresh")==0  ||
-             strcmp(param_type.c_str(),"calcIthresh")==0 ||
-             strcmp(param_type.c_str(),"costcoeff")==0   ||
-             strcmp(param_type.c_str(),"CDthresh")==0    ||
-             strcmp(param_type.c_str(),"Iratio")==0      ){
-        if(vs.size()<2){
-            retError(param_type);
-        }
+    else if(compStrings(5, param_type.c_str(),"obsIthresh","calcIthresh",
+                           "costcoeff","Iratio")){
+        if(vs.size()<2){retError(param_type);}
         if(!isPositiveFloat(vs[1].c_str())){
             retError(param_type);
         }
     }
-    else if( strcmp(param_type.c_str(),"obsfile")==0    ||
-            strcmp(param_type.c_str(),"calcfile")==0    ||
-            strcmp(param_type.c_str(),"readmatches")==0 ){
+    else if(compStrings(4, param_type.c_str(),"obsfile","calcfile","readmatches")){
         if(vs.size()<2){retError(param_type);}
     }
-    else if( strcmp(param_type.c_str(),"numGSCDs")==0  ||
-             strcmp(param_type.c_str(),"Nquanta ")==0  ||
-             strcmp(param_type.c_str(),"maxiter")==0  ){
+    else if(compStrings(4, param_type.c_str(),"numGSCDs","Nquanta","maxiter")){
         if(vs.size()<2){retError(param_type);}
         if(!isPositiveInt(vs[1].c_str())){
             retError(param_type);
@@ -75,12 +64,13 @@ void Input::checkInput(vector<string> vs){
     }
     else if( strcmp(param_type.c_str(),"matchinfo")==0 ){
         if(vs.size()<2){retError(param_type);}
-        if( strcmp(vs[1].c_str(),"all")==0   ||
-            strcmp(vs[1].c_str(),"none")==0  ||
-            strcmp(vs[1].c_str(),"calc")==0  ||
-            strcmp(vs[1].c_str(),"obs")==0   ){
-        ;}
-        else{
+        if(!compStrings(5,vs[1].c_str(),"all","none","calc","obs")){
+            retError(param_type);
+        }
+    }
+    else if( strcmp(param_type.c_str(),"CDthresh")==0 ){//problem with CDthresh read
+        if(vs.size()<2){retError(param_type);}
+        if(strcmp(vs[1].c_str(),"read")==1 || !isPositiveFloat(vs[1].c_str()) ){
             retError(param_type);
         }
     }
@@ -109,16 +99,16 @@ void Input::ReadInput(){
 
         if(split_line.size()==0) continue;
 
-        // Input parameter name
+        // Check to see if we have a valid input
+        checkInput(split_line);
+
+        // Input parameter type
         string param_type = trim(split_line[0]);
 
         if(param_type == "obsrange"){
-
             checkInput(split_line);
-
             obs_range_lw = atof(split_line[1].c_str());
             obs_range_up = atof(split_line[2].c_str());
-
             if(obs_range_lw > obs_range_up){
                 double temp = obs_range_lw;
                 obs_range_up = obs_range_lw;
@@ -126,12 +116,8 @@ void Input::ReadInput(){
             }
         }
         else if(param_type == "calcrange"){
-
-            checkInput(split_line);
-
             calc_range_lw = atof(split_line[1].c_str());
             calc_range_up = atof(split_line[2].c_str());
-
             if(calc_range_lw > calc_range_up){
                 double temp = calc_range_lw;
                 calc_range_up = calc_range_lw;
@@ -139,98 +125,48 @@ void Input::ReadInput(){
                 }
         }
         else if(param_type == "obsIthresh"){
-
-            checkInput(split_line);
-
             obs_int_thresh = atof(split_line[1].c_str());
         }
         else if(param_type == "calcIthresh"){
-
-            checkInput(split_line);
-
             calc_int_thresh = atof(split_line[1].c_str());
         }
         else if(param_type == "obsfile"){
-
-            checkInput(split_line);
-
             obs_ll_file_name = split_line[1].c_str();
         }
         else if(param_type == "calcfile"){
-
-            checkInput(split_line);
-
             calc_ll_file_name = split_line[1].c_str();
-
         }
         else if(param_type == "GSCDs"){
-
             perform_gscd_tf = true;
-
         }
         else if(param_type == "costcoeff"){
-
-            checkInput(split_line);
-
             cost_coeff = atof(split_line[1].c_str());
-
         }
         else if(param_type == "CDthresh"){
-
-            checkInput(split_line);
-
             cd_thresh = atof(split_line[1].c_str());
-
         }
         else if(param_type == "Iratio"){
-
-            checkInput(split_line);
-
             intens_ratio = atof(split_line[1].c_str());
-
         }
         else if(param_type == "numGSCDs"){
-
-            checkInput(split_line);
-
             gscd_set_size = atof(split_line[1].c_str());
-
         }
         else if(param_type == "Nquanta"){
-
-            checkInput(split_line);
-
             num_quanta = atof(split_line[1].c_str());
-
         }
         else if(param_type == "maxiter"){
-
-            checkInput(split_line);
-
             max_iter = atof(split_line[1].c_str());
-
         }
         else if(param_type == "readmatches"){
-
-            checkInput(split_line);
-
             matches_file_name = split_line[1].c_str();
             read_matches_tf = true;
-
         }
         else if(param_type == "matchinfo"){
-
-            checkInput(split_line);
-
             print_match_info = split_line[1].c_str();
-
         }
         else{
-
             cout<<"Unrecognized keyword ---> "<< param_type <<endl;
-
             exit(0);
-
         }
 
     }

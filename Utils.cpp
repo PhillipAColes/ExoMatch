@@ -7,8 +7,16 @@
 #include "Utils.h"
 #include <iterator>
 #include <sstream>
+#include <cstdarg>
+#include <stdio.h>
+#include <string>
+#include <cstdio>
+#include <cstring>
+#include <string>
+#include <iostream>
+#include <fstream>
+#include <vector>
 using namespace std;
-
 
 // Split string
 std::vector<std::string> split(std::string const &input) {
@@ -35,7 +43,7 @@ std::string &trim(std::string &s) {
     return ltrim(rtrim(s));
 }
 
-// check to see if we have float or string
+// Check to see if we have a float or string. Returns TRUE if float
 bool isPositiveFloat(const std::string &s){
     std::string::const_iterator it = s.begin();
     bool decimalPoint = false;
@@ -56,7 +64,7 @@ bool isPositiveFloat(const std::string &s){
     return s.size()>minSize && it == s.end();
 }
 
-// check to see if we have float or string
+// Check to see if we have an integer or string. Returns TRUE if integer
 bool isPositiveInt(const std::string &s){
     std::string::const_iterator it = s.begin();
     bool decimalPoint = false;
@@ -73,6 +81,22 @@ bool isPositiveInt(const std::string &s){
     }
     return s.size()>minSize && it == s.end();
 }
+
+// compares string arguments. Returns TRUE if first argument is repeated in list of arguments
+bool compStrings(int num,...){
+    va_list valist;//declare variable of type va_list
+    va_start(valist, num); //initialize valist for num number of arguments
+    char *s = va_arg(valist, char*);
+    for (int i = 1; i < num; i++){
+        char *s1 = va_arg(valist, char*); //get first string to compare to the rest
+        if( strcmp(s,s1)==0 ){
+            return true;
+        }
+    }
+    va_end(valist); //clean memory reserved for valist
+    return false;
+}
+
 
 // return an error
 void retError(std::string &s){

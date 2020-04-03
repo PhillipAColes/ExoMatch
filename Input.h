@@ -38,7 +38,7 @@ class Input{
         int    max_iter;
         bool   perform_gscd_tf;
         bool   read_matches_tf;
-        void checkInput(vector<string> vs);
+        void   checkInput(vector<string> vs);
 
     public:
         Input();//constructor

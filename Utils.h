@@ -9,6 +9,7 @@
 #define UTILS_H_
 
 #include <cstdio>
+#include <stdio.h>
 #include <string>
 #include <ctime>
 #include <fstream>
@@ -30,6 +31,8 @@ std::vector<std::string> split(std::string const &input);
 bool isPositiveFloat(const std::string &s);
 
 bool isPositiveInt(const std::string &s);
+
+bool compStrings(int num,...);
 
 void retError(std::string &s);
 
