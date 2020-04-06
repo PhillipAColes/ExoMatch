@@ -68,9 +68,9 @@ void Input::checkInput(vector<string> vs){
             retError(param_type);
         }
     }
-    else if( strcmp(param_type.c_str(),"CDthresh")==0 ){//problem with CDthresh read
+    else if( strcmp(param_type.c_str(),"CDthresh")==0 ){
         if(vs.size()<2){retError(param_type);}
-        if(strcmp(vs[1].c_str(),"read")==1 || !isPositiveFloat(vs[1].c_str()) ){
+        if( (strcmp(vs[1].c_str(),"read")!=0) && (!isPositiveFloat(vs[1].c_str())) ){
             retError(param_type);
         }
     }
