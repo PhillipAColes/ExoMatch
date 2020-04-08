@@ -6,6 +6,9 @@
  */
 // restarting ExoMatch
 #include <cstdio>
+
+//#include "BaseLinelist.h"
+#include "ObsLinelist.h"
 #include "Input.h"
 using namespace std;
 
@@ -16,6 +19,8 @@ int main(int argc, char* argv[]){
 
     //user input is an instance of the Input class
     Input user_input;
+    Input *user_input_ptr = &user_input;
+    //user_input_ptr = &user_input;
 
     user_input.SetInFileName(cmd_input);
     user_input.ReadInput();
@@ -34,6 +39,9 @@ int main(int argc, char* argv[]){
     cout << "maxiter " << user_input.GetMaxIter() << std::endl;
     cout << "readmatches " << user_input.GetMatchesFileName() << std::endl;
     cout << "matchinfo " << user_input.GetPrintMatchInfo() << std::endl;
+
+    ObsLinelist obs_linelist;
+    obs_linelist.initialize(user_input_ptr);
 
 }
 
