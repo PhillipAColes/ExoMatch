@@ -9,21 +9,21 @@
 #include "ObsLinelist.h"
 
 //Constructor to initialise data members in class Input
-ObsLinelist::ObsLinelist(){}
+ObsLinelist::ObsLinelist(Input *pInput) : linelist_type("obs"),
+                                          num_lines_in_file(0),
+                                          num_lines_in_match_set(0){
+
+    ll_file_name = pInput->GetObsLLFileName();
+    lw_range = pInput->GetObsRangeLw();
+    up_range = pInput->GetObsRangeUp();
+    int_thresh = pInput->GetObsIntThresh();
+    thresh_cd = pInput->GetCDThresh();
+
+};
 
 ObsLinelist::~ObsLinelist(){}//destructor
 
-void ObsLinelist::initialize(Input *pInput){
-
-    ll_file_name = pInput->GetObsLLFileName();
-
-    double lw_obs_range = pInput->GetObsRangeLw();
-
-    double up_obs_range = pInput->GetObsRangeUp();
-
-    double obs_int_thresh = pInput->GetObsIntThresh();
-
-    double thresh_cd = pInput->GetCDThresh();
+void ObsLinelist::initialize(){
 
     std::ifstream infile(ll_file_name.c_str());
 
@@ -64,7 +64,7 @@ void ObsLinelist::initialize(Input *pInput){
 
         global_assignment_map.push_back(-1);
 
-        if( wn[i] > lw_obs_range && wn[i] < up_obs_range && intens[i] > obs_int_thresh){
+        if( wn[i] > lw_range && wn[i] < up_range && intens[i] > int_thresh){
 
             matching_wn.push_back(wn[i]);
 
@@ -89,6 +89,8 @@ void ObsLinelist::initialize(Input *pInput){
     infile.close();
 
     if(num_lines_in_file==0){printf ("Error, file empty");exit (EXIT_FAILURE);}
+
+    cout << "Linelist is of type " << linelist_type << endl;
 
 }
 
