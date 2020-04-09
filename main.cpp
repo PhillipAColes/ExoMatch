@@ -27,8 +27,10 @@ int main(int argc, char* argv[]){
 
     cout << "obs_range_lw " << user_input.GetObsRangeLw() << std::endl;
     cout << "obs_range_up " << user_input.GetObsRangeUp() << std::endl;
+    cout << "obs_int_thresh " << user_input.GetObsIntThresh() << std::endl;
     cout << "calc_range_lw " << user_input.GetCalcRangeLw() << std::endl;
     cout << "calc_range_up " << user_input.GetCalcRangeUp() << std::endl;
+    cout << "calc_int_thresh " << user_input.GetCalcIntThresh() << std::endl;
     cout << "obs_file is " << user_input.GetObsLLFileName() << std::endl;
     cout << "calc_file is " << user_input.GetCalcLLFileName() << std::endl;
     cout << "costcoeff is " << user_input.GetCostCoeff() << std::endl;
@@ -42,6 +44,13 @@ int main(int argc, char* argv[]){
 
     ObsLinelist obs_linelist;
     obs_linelist.initialize(user_input_ptr);
+
+    int num_lines = obs_linelist.GetNumLinesInFile();
+    vector<double> wavenumber = obs_linelist.GetWn();
+
+    for(int i=0; i<num_lines; i++){
+        cout << wavenumber[i] << endl;
+    }
 
 }
 

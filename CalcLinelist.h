@@ -1,18 +1,17 @@
 /*
- * ObsLinelist.h
+ * CalcLinelist.h
  *
- *  Created on: 6 Apr 2020
+ *  Created on: 8 Apr 2020
  *      Author: Phillip
  */
 
-#ifndef OBSLINELIST_H_
-#define OBSLINELIST_H_
+#ifndef CALCLINELIST_H_
+#define CALCLINELIST_H_
 #include "Utils.h"
 #include "Input.h"
 using namespace std;
 
-//class ObsLinelist : public BaseLinelist {
-class ObsLinelist{
+class CalcLinelist{
     private:
     Input*         input;
     int            num_lines_in_file = 0;
@@ -28,12 +27,19 @@ class ObsLinelist{
     vector<double> matching_intens;
     vector<string> spec_lines;
 
+    int                  num_of_quanta;
+    vector<double>       upper_energy;
+    vector<double>       lower_energy;
+    vector<vector<char>> upper_quanta;
+    vector<vector<char>> lower_quanta;
+
+
     public:
-    ObsLinelist();//constructor
-    ~ObsLinelist();//destructor
+    CalcLinelist();//constructor
+    ~CalcLinelist();//destructor
     void initialize(Input *pInput);
     int            GetNumLinesInFile(){return num_lines_in_file;}
     vector<double> GetWn(){return wn;}
 };
 
-#endif /* OBSLINELIST_H_ */
+#endif /* CALCLINELIST_H_ */

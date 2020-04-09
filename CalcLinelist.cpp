@@ -1,36 +1,33 @@
 /*
- * ObsLinelist.cpp
+ * CalcLinelist.cpp
  *
- *  Created on: 6 Apr 2020
+ *  Created on: 8 Apr 2020
  *      Author: Phillip
  */
+
 #include "Input.h"
 #include "Utils.h"
-#include "ObsLinelist.h"
+#include "CalcLinelist.h"
+using namespace std;
 
 //Constructor to initialise data members in class Input
-ObsLinelist::ObsLinelist(){}
+CalcLinelist::CalcLinelist(){}
 
-ObsLinelist::~ObsLinelist(){}//destructor
+CalcLinelist::~CalcLinelist(){}//destructor
 
-void ObsLinelist::initialize(Input *pInput){
+void CalcLinelist::initialize(Input *pInput){
 
-    ll_file_name = pInput->GetObsLLFileName();
+    ll_file_name = pInput->GetCalcLLFileName();
 
-    double lw_obs_range = pInput->GetObsRangeLw();
+    double lw_calc_range = pInput->GetCalcRangeLw();
 
-    double up_obs_range = pInput->GetObsRangeUp();
+    double up_calc_range = pInput->GetCalcRangeUp();
 
-    double obs_int_thresh = pInput->GetObsIntThresh();
-
-    double thresh_cd = pInput->GetCDThresh();
+    double calc_int_thresh = pInput->GetCalcIntThresh();
 
     std::ifstream infile(ll_file_name.c_str());
 
-    if(infile.fail()){
-        cout << "Error: " << ll_file_name << " not found. Stopping." << endl;
-        exit(0);
-    }
+    if(infile.fail()){cout << "Error: " << ll_file_name << " not found. Stopping." << endl; exit(0);}
 
     string ll_file_line;
 
@@ -45,8 +42,7 @@ void ObsLinelist::initialize(Input *pInput){
 
         // Check each line is valid input
         if( split_line.size()==0 || !isPositiveFloat(split_line[0].c_str()) ||
-            !isPositiveFloat(split_line[1].c_str())                         ||
-            ( thresh_cd == 0 && !isPositiveFloat(split_line[2].c_str()) )   ){
+            !isPositiveFloat(split_line[1].c_str())                         ){
             cout << "Error in " << ll_file_name << ", bad input at line number " << i+1 << endl;
             exit(0);
         }
@@ -56,15 +52,9 @@ void ObsLinelist::initialize(Input *pInput){
 
         intens.push_back(atof(split_line[1].c_str()));
 
-        if(thresh_cd == 0){
-            cd_thresh.push_back(atof(split_line[2].c_str()));
-        } else {
-            cd_thresh.push_back(thresh_cd);
-        }
-
         global_assignment_map.push_back(-1);
 
-        if( wn[i] > lw_obs_range && wn[i] < up_obs_range && intens[i] > obs_int_thresh){
+        if( wn[i] > lw_calc_range && wn[i] < up_calc_range && intens[i] > calc_int_thresh){
 
             matching_wn.push_back(wn[i]);
 
@@ -88,7 +78,9 @@ void ObsLinelist::initialize(Input *pInput){
 
     infile.close();
 
-    if(num_lines_in_file==0){printf ("Error, file empty");exit (EXIT_FAILURE);}
+    if(num_lines_in_file==0){cout << "Error empty file: " << ll_file_name << endl; exit (EXIT_FAILURE);}
 
 }
+
+
 
