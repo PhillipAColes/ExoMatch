@@ -5,82 +5,99 @@
  *      Author: Phillip
  */
 
+#include <memory>
+#include <errno.h>
+#include <cctype>
+#include <stdio.h>
+#include <string.h>
 #include "Input.h"
 #include "Utils.h"
 #include "CalcLinelist.h"
 using namespace std;
+std::clock_t timestart,timeend,ticstaken,totaltimestart,totaltimeend;
 
 //Constructor to initialise data members in class Input
-CalcLinelist::CalcLinelist(){}
+CalcLinelist::CalcLinelist(Input *pInput) : linelist_type("calc"){
+
+    ll_file_name = pInput->GetCalcLLFileName();
+    num_of_quanta = pInput->GetNumOfQuanta();
+
+};
 
 CalcLinelist::~CalcLinelist(){}//destructor
 
-void CalcLinelist::initialize(Input *pInput){
+void CalcLinelist::initialize(){
 
-    ll_file_name = pInput->GetCalcLLFileName();
+    num_trans = 0;
 
-    double lw_calc_range = pInput->GetCalcRangeLw();
+    FILE * ll_file = fopen(ll_file_name.c_str(),"r");
 
-    double up_calc_range = pInput->GetCalcRangeUp();
+    char buffer[1024];
+    size_t ll_size = 0;
 
-    double calc_int_thresh = pInput->GetCalcIntThresh();
+    while(fgets(buffer, 1024, ll_file)){
+        num_trans++;
+        string s_tmp = (1,buffer);
+        ll_size = ll_size + sizeof (trim(s_tmp));
+    }
+    printf("%zd bytes is required to hold linelist %s\n",ll_size,ll_file_name.c_str());
 
-    std::ifstream infile(ll_file_name.c_str());
+    cout << "Number of lines to be read from " << ll_file_name << " = " << num_trans << endl;
 
-    if(infile.fail()){cout << "Error: " << ll_file_name << " not found. Stopping." << endl; exit(0);}
+    rewind(ll_file);
 
-    string ll_file_line;
+    cout << "Begin reading in " << linelist_type << " linelist" << endl;
 
-    int i = 0, j = 0;
+    timestart = std::clock();
 
-    while(getline(infile,ll_file_line)){
+    int i_tmp = 0;
 
-        spec_lines.push_back(trim(ll_file_line));
+    while(fgets(buffer, 1024, ll_file)){
 
-        // Split input line into fields
-        vector<string> split_line = split(ll_file_line);
+        vector<string> line_tmp;
 
-        // Check each line is valid input
-        if( split_line.size()==0 || !isPositiveFloat(split_line[0].c_str()) ||
-            !isPositiveFloat(split_line[1].c_str())                         ){
-            cout << "Error in " << ll_file_name << ", bad input at line number " << i+1 << endl;
-            exit(0);
+        string line = (string)buffer;
+
+        line_tmp = split_sub(line,' ', 4+2*num_of_quanta);
+
+        if( !isPositiveFloat(line_tmp[0].c_str())                 ||
+            !isPositiveFloat(line_tmp[1].c_str())                 ||
+            !isPositiveFloat(line_tmp[2+num_of_quanta].c_str())   ||
+            !isPositiveFloat(line_tmp[2*num_of_quanta+3].c_str()) ){
+                retLLError(i_tmp, ll_file_name);
         }
 
-        // Build vector of observed trans wavenumbers and intensities
-        wn.push_back(atof(split_line[0].c_str()));
+        wn.push_back(atof(line_tmp[0].c_str()));
 
-        intens.push_back(atof(split_line[1].c_str()));
+        intens.push_back(atof(line_tmp[1].c_str()));
 
-        global_assignment_map.push_back(-1);
+        vector<string> up_quanta_tmp = slice_vec(line_tmp,2,1+num_of_quanta);
+        upper_quanta.push_back(up_quanta_tmp);
 
-        if( wn[i] > lw_calc_range && wn[i] < up_calc_range && intens[i] > calc_int_thresh){
+        upper_energy.push_back(atof(line_tmp[2+num_of_quanta].c_str()));
 
-            matching_wn.push_back(wn[i]);
+        vector<string> lw_quanta_tmp = slice_vec(line_tmp,3+num_of_quanta,2+2*num_of_quanta);
+        lower_quanta.push_back(lw_quanta_tmp);
 
-            matching_intens.push_back(intens[i]);
+        lower_energy.push_back(atof(line_tmp[2*num_of_quanta+3].c_str()));
 
-            match_set_index_2_global_index.push_back(i);
-
-            matching.push_back(-1);
-
-            j++;
-
-        }
-
-        i++;
-
+//        cout << wn[i_tmp] << " " << intens[i_tmp] << " " << upper_quanta[i_tmp][0] << " "
+//                << upper_quanta[i_tmp][1] << " " << upper_quanta[i_tmp][2] << " "
+//                << upper_energy[i_tmp] << " " << lower_quanta[i_tmp][0] << " "
+//                << lower_quanta[i_tmp][1] << " " << lower_quanta[i_tmp][2] << " "
+//                << lower_energy[i_tmp] << endl;
+        i_tmp++;
     }
 
-    num_lines_in_file = i;
+    timeend = std::clock();
+    double duration = (timeend - timestart)/(double) CLOCKS_PER_SEC;
 
-    num_lines_in_match_set = j;
+    cout << "... done" << endl;
+    cout << "Time taken to read in calc file : " << duration << "seconds" << endl;
 
-    infile.close();
+    fclose(ll_file);
 
-    if(num_lines_in_file==0){cout << "Error empty file: " << ll_file_name << endl; exit (EXIT_FAILURE);}
+    global_assignment_map.assign(num_trans,-1);
 
 }
-
-
 

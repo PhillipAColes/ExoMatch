@@ -9,6 +9,7 @@
 #define INPUT_H_
 
 #include <cstdio>
+#include <stdio.h>
 #include <cstring>
 #include <string>
 #include <iostream>

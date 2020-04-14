@@ -48,7 +48,8 @@ bool isPositiveFloat(const std::string &s){
     std::string::const_iterator it = s.begin();
     bool decimalPoint = false;
     bool sciNotation = false;
-    bool minusSign = false;
+    //bool minusSign = false;
+    bool sign = false;
     int minSize = 0;
     if(s.size()>0 && (s[0] == '+')){
       it++;
@@ -58,13 +59,16 @@ bool isPositiveFloat(const std::string &s){
       if(*it == '.'){
         if(!decimalPoint) decimalPoint = true;
         else break;
+        if(sciNotation) break;
       }else if(*it == 'e' || *it == 'E'){
         if(!sciNotation) sciNotation = true;
         else break;
-      }else if(*it == '-'){
+      }else if(*it == '-' || *it == '+'){
         if(!sciNotation) break;
-        if(minusSign) break;
-        minusSign = true;
+       // if(minusSign) break;
+       // minusSign = true;
+        if(sign) break;
+        sign = true;
       }else if(!std::isdigit(*it)){
         break;
       }
@@ -113,16 +117,29 @@ void retError(std::string &s){
     exit(0);
 }
 
+// return an error
+void retLLError(int line_num, string file_name){
+    printf("Error: invalid input in line number %i of linelist file: %s\n",line_num,file_name.c_str());
+    exit(0);
+}
 
-/* iterator for a vector of vectors
-vector< vector<int> > vvi;
-//Then you need to use two iterators to traverse it, the first the iterator of the "rows",
-//the second the iterators of the "columns" in that "row":
-//assuming you have a "2D" vector vvi (vector of vector of int's)
-vector< vector<int> >::iterator row;
-vector<int>::iterator col;
-for (row = vvi.begin(); row != vvi.end(); row++) {
-    for (col = row->begin(); col != row->end(); col++) {
-        // do stuff ...
+// Place first 'nfields' tokens found in string into a vector.
+// Input is the string to be split (line), a character separator (separator),
+// and the number of tokens to be returned (nfields)
+vector<string> split_sub( string line, char separator , int nfields){
+    vector<string> split_line;
+    string::iterator start = line.begin();
+    string::iterator end = line.end();
+    string::iterator next = find(start,end,separator);
+    int token_N = 0;
+    while(next!=end && token_N < nfields){
+        string tokn = string(start,next);
+        start = next + 1;
+        next = find(start,end,separator);
+        if(tokn == "")continue;
+        split_line.push_back(tokn);
+        token_N++;
     }
-}*/
+    return split_line;
+}
+

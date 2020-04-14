@@ -8,7 +8,9 @@
 #include <cstdio>
 
 //#include "BaseLinelist.h"
+#include "LinelistReader.h"
 #include "ObsLinelist.h"
+#include "CalcLinelist.h"
 #include "Input.h"
 using namespace std;
 
@@ -17,7 +19,6 @@ int main(int argc, char* argv[]){
     std::string cmd_input = argv[1];
     std::cout << "cmd input is " << cmd_input << std::endl;
 
-    //user input is an instance of the Input class
     Input user_input;
     Input *user_input_ptr = &user_input;
 
@@ -44,12 +45,27 @@ int main(int argc, char* argv[]){
     ObsLinelist obs_linelist(user_input_ptr);
     obs_linelist.initialize();
 
-    int num_lines = obs_linelist.GetNumLinesInFile();
-    vector<double> wavenumber = obs_linelist.GetWn();
+    CalcLinelist calc_linelist(user_input_ptr);
+    calc_linelist.initialize();
 
-  //  for(int i=0; i<num_lines; i++){
-  //      cout << wavenumber[i] << endl;
-  //  }
+//    int num_lines = obs_linelist.GetNumLinesInFile();
+//
+//    vector<double> wavenumber = obs_linelist.GetWn();
+//    vector<double> intens = obs_linelist.GetIntens();
+//    vector<double> cds = obs_linelist.GetCDThresh();
+//
+//    for(int i=0; i<num_lines; i++){
+//        cout << wavenumber[i] << "  " << intens[i] << "  " << cds[i] << endl;
+//    }
+//
+//    num_lines = calc_linelist.GetNumLinesInFile();
+//
+//    vector<double> cwavenumber = calc_linelist.GetWn();
+//    vector<double> cintens = calc_linelist.GetIntens();
+//
+//    for(int i=0; i<num_lines; i++){
+//        cout << cwavenumber[i] << "  " << cintens[i] << "  " << endl;
+//    }
 
 }
 

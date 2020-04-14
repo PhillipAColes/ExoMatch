@@ -9,13 +9,14 @@
 #define OBSLINELIST_H_
 #include "Utils.h"
 #include "Input.h"
+#include "LinelistReader.h"
 using namespace std;
 
 //class ObsLinelist : public BaseLinelist {
 class ObsLinelist{
     private:
     Input*         input;
-    int            num_lines_in_file;
+    int            num_trans;
     int            num_lines_in_match_set;
     string         ll_file_name;
     string         linelist_type;
@@ -31,15 +32,19 @@ class ObsLinelist{
     double lw_range;
     double up_range;
     double int_thresh;
-    double thresh_cd;
+    double tmp_thresh_cd;
     vector<double> cd_thresh;
+
+    void   checkObsInput(char*ln_buff,char*ln_ptr[],double ln_wn,double ln_intens, int ln_cdthr, int ln_num);
 
     public:
     ObsLinelist(Input *pInput);//constructor
     ~ObsLinelist();//destructor
     void initialize();
-    int            GetNumLinesInFile(){return num_lines_in_file;}
+    int            GetNumLinesInFile(){return num_trans;}
     vector<double> GetWn(){return wn;}
+    vector<double> GetIntens(){return intens;}
+    vector<double> GetCDThresh(){return cd_thresh;}
 };
 
 #endif /* OBSLINELIST_H_ */

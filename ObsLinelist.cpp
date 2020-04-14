@@ -4,93 +4,93 @@
  *  Created on: 6 Apr 2020
  *      Author: Phillip
  */
+#include <memory>
+#include <errno.h>
+#include <cctype>
 #include "Input.h"
 #include "Utils.h"
 #include "ObsLinelist.h"
+using namespace std;
 
-//Constructor to initialise data members in class Input
-ObsLinelist::ObsLinelist(Input *pInput) : linelist_type("obs"),
-                                          num_lines_in_file(0),
-                                          num_lines_in_match_set(0){
+ObsLinelist::ObsLinelist(Input *pInput) : linelist_type("obs"){
 
     ll_file_name = pInput->GetObsLLFileName();
-    lw_range = pInput->GetObsRangeLw();
-    up_range = pInput->GetObsRangeUp();
-    int_thresh = pInput->GetObsIntThresh();
-    thresh_cd = pInput->GetCDThresh();
+    tmp_thresh_cd = pInput->GetCDThresh();
 
 };
 
-ObsLinelist::~ObsLinelist(){}//destructor
+ObsLinelist::~ObsLinelist(){}
 
 void ObsLinelist::initialize(){
 
-    std::ifstream infile(ll_file_name.c_str());
+    num_trans = 0;
 
-    if(infile.fail()){
-        cout << "Error: " << ll_file_name << " not found. Stopping." << endl;
-        exit(0);
+    FILE * ll_file = fopen(ll_file_name.c_str(),"r");
+
+    char buffer[1024];
+
+    while(fgets(buffer, 1024, ll_file)){
+        num_trans++;
     }
 
-    string ll_file_line;
+    cout << "Number of lines to be read from " << ll_file_name << " = " << num_trans << endl;
 
-    int i = 0, j = 0;
+    rewind(ll_file);
 
-    while(getline(infile,ll_file_line)){
+    cout << "Begin reading in " << linelist_type << " linelist" << endl;
 
-        spec_lines.push_back(trim(ll_file_line));
+    char * ln_ptr[3];
+    int tmp_i = 0;
+    double wn_tmp = 0;
+    double intens_tmp = 0;
+    double cd_tmp = 0;
 
-        // Split input line into fields
-        vector<string> split_line = split(ll_file_line);
+    while(fgets(buffer, 1024, ll_file)){
 
-        // Check each line is valid input
-        if( split_line.size()==0 || !isPositiveFloat(split_line[0].c_str()) ||
-            !isPositiveFloat(split_line[1].c_str())                         ||
-            ( thresh_cd == 0 && !isPositiveFloat(split_line[2].c_str()) )   ){
-            cout << "Error in " << ll_file_name << ", bad input at line number " << i+1 << endl;
-            exit(0);
+        wn_tmp = strtod(buffer,&ln_ptr[0]);
+
+        intens_tmp = strtod(ln_ptr[0],&ln_ptr[1]);
+
+        if(tmp_thresh_cd == 0){
+            cd_tmp = strtod(ln_ptr[1],&ln_ptr[2]);
+        }else{
+            cd_tmp = tmp_thresh_cd;
+            ln_ptr[2] = ln_ptr[0];
         }
 
-        // Build vector of observed trans wavenumbers and intensities
-        wn.push_back(atof(split_line[0].c_str()));
+        checkObsInput(buffer,ln_ptr,wn_tmp,intens_tmp,cd_tmp,tmp_i);
 
-        intens.push_back(atof(split_line[1].c_str()));
+        wn.push_back(wn_tmp);
 
-        if(thresh_cd == 0){
-            cd_thresh.push_back(atof(split_line[2].c_str()));
-        } else {
-            cd_thresh.push_back(thresh_cd);
-        }
+        intens.push_back(intens_tmp);
 
-        global_assignment_map.push_back(-1);
+        cd_thresh.push_back(cd_tmp);
 
-        if( wn[i] > lw_range && wn[i] < up_range && intens[i] > int_thresh){
-
-            matching_wn.push_back(wn[i]);
-
-            matching_intens.push_back(intens[i]);
-
-            match_set_index_2_global_index.push_back(i);
-
-            matching.push_back(-1);
-
-            j++;
-
-        }
-
-        i++;
-
+        tmp_i++;
     }
 
-    num_lines_in_file = i;
+    cout << "... done" << endl;
 
-    num_lines_in_match_set = j;
+    fclose(ll_file);
 
-    infile.close();
+    global_assignment_map.assign(num_trans,-1);
 
-    if(num_lines_in_file==0){printf ("Error, file empty");exit (EXIT_FAILURE);}
+}
 
-    cout << "Linelist is of type " << linelist_type << endl;
+
+
+void ObsLinelist::checkObsInput(char*ln_buff,char*ln_ptr[],double ln_wn, double ln_intens, int ln_cdthr, int ln_num){
+
+    errno = 0;
+
+    if( ln_wn == 0     && (errno != 0 || ln_ptr[0] == ln_buff)   || !isspace(*ln_ptr[0]) ||
+        ln_intens == 0 && (errno != 0 || ln_ptr[1] == ln_ptr[0]) || !isspace(*ln_ptr[1]) ||
+        ln_cdthr == 0  && (errno != 0 || ln_ptr[2] == ln_ptr[1]) || !isspace(*ln_ptr[2]) ){
+
+        fprintf(stderr, "Error line %d : input is not a valid double\n", ln_num+1);
+
+        exit(EXIT_FAILURE);
+    }
 
 }
 
