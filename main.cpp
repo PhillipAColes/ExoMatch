@@ -12,6 +12,7 @@
 #include "ObsLinelist.h"
 #include "CalcLinelist.h"
 #include "Input.h"
+#include "LAP.h"
 using namespace std;
 
 int main(int argc, char* argv[]){
@@ -44,9 +45,11 @@ int main(int argc, char* argv[]){
 
     ObsLinelist obs_linelist(user_input_ptr);
     obs_linelist.initialize();
+    ObsLinelist *obs_linelist_ptr = &obs_linelist;
 
     CalcLinelist calc_linelist(user_input_ptr);
     calc_linelist.initialize();
+    CalcLinelist *calc_linelist_ptr = &calc_linelist;
 
 //    int num_lines = obs_linelist.GetNumLinesInFile();
 //
@@ -66,6 +69,9 @@ int main(int argc, char* argv[]){
 //    for(int i=0; i<num_lines; i++){
 //        cout << cwavenumber[i] << "  " << cintens[i] << "  " << endl;
 //    }
+
+    LAP linear_assig_prob(user_input_ptr,obs_linelist_ptr,calc_linelist_ptr);
+    linear_assig_prob.Hungarian();
 
 }
 

@@ -58,13 +58,15 @@ void CalcLinelist::initialize(){
 
         string line = (string)buffer;
 
-        line_tmp = split_sub(line,' ', 4+2*num_of_quanta);
+        line_tmp = split_sub(trim(line),' ', 4+2*num_of_quanta);
 
+//        cout << num_of_quanta << " " << 2*num_of_quanta+3 << " wn: '" <<  line_tmp[0].c_str() << "' intens: '" <<  line_tmp[1].c_str() << "' upener: '"
+//                << line_tmp[2+num_of_quanta].c_str() << "' lwener:     '" << line_tmp[(2*num_of_quanta)+3].c_str() << "'" <<  endl;
         if( !isPositiveFloat(line_tmp[0].c_str())                 ||
             !isPositiveFloat(line_tmp[1].c_str())                 ||
             !isPositiveFloat(line_tmp[2+num_of_quanta].c_str())   ||
-            !isPositiveFloat(line_tmp[2*num_of_quanta+3].c_str()) ){
-                retLLError(i_tmp, ll_file_name);
+            !isPositiveFloat(line_tmp[(2*num_of_quanta)+3].c_str()) ){
+                retLLError(i_tmp+1, ll_file_name);
         }
 
         wn.push_back(atof(line_tmp[0].c_str()));

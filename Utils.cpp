@@ -140,6 +140,8 @@ vector<string> split_sub( string line, char separator , int nfields){
         split_line.push_back(tokn);
         token_N++;
     }
+    string tokn = string(start,next);
+    split_line.push_back(tokn);
     return split_line;
 }
 
