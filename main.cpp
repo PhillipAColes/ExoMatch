@@ -12,7 +12,7 @@
 #include "ObsLinelist.h"
 #include "CalcLinelist.h"
 #include "Input.h"
-#include "LAP.h"
+#include "LinearAssigProb.h"
 using namespace std;
 
 int main(int argc, char* argv[]){
@@ -70,8 +70,11 @@ int main(int argc, char* argv[]){
 //        cout << cwavenumber[i] << "  " << cintens[i] << "  " << endl;
 //    }
 
-    LAP linear_assig_prob(user_input_ptr,obs_linelist_ptr,calc_linelist_ptr);
-    linear_assig_prob.Hungarian();
+    LinearAssigProb LAP(user_input_ptr,obs_linelist_ptr,calc_linelist_ptr);
+    LAP.Hungarian();
+
+//    CombinationDiffs comb_diffs;
+
 
 }
 

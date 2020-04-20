@@ -58,7 +58,7 @@ void ObsLinelist::initialize(){
             ln_ptr[2] = ln_ptr[0];
         }
 
-       // checkObsInput(buffer,ln_ptr,wn_tmp,intens_tmp,cd_tmp,tmp_i);
+        checkObsInput(buffer,ln_ptr,wn_tmp,intens_tmp,cd_tmp,tmp_i);
 
         wn.push_back(wn_tmp);
 
