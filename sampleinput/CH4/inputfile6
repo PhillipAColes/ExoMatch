@@ -1,0 +1,15 @@
+obsfile 5d8bb1bf_unc.inp
+calcfile CH4_YT10to10_296K_2300-3400_E-25_exp.inp
+calcIthresh 1.0e-22
+obsIthresh 2.0e-22
+obsrange 2400 3300
+calcrange 2400 3300
+matchinfo all
+costcoeff 0.5
+GSCD
+CDthresh 0.001
+Iratio 0.8
+numGSCDs 2
+verbose 1
+Nquanta 15
+maxiter 2

@@ -1,0 +1,95 @@
+--- obsfile (string) ---
+Name of file containing the observed line list.
+
+
+--- calcfile (string) ---
+Name of file containing the calculated line list.
+
+
+--- calcIthresh (double) ---
+Lower threshold for calculated lines' intensities to be included in the optimal matching.
+For example, using calcIthresh 5.0e-24 will ensure all calculated lines with intensities stronger than 5.0e-24 will be included in the matching.
+Default value 1.0e-40
+
+
+--- obsIthresh (double) ---
+Lower threshold for observed lines' intensities to be included in the optimal matching.
+For example, using obsIthresh 5.0e-24 will ensure all observed lines with intensities stronger than 5.0e-24 will be included in the matching.
+Takes real value.
+Default value 1.0e-40
+
+
+--- obsrange (double) ---
+Spectral region of observed line list, given in wavenumbers, for which optimal matching is to be performed.
+For example, obsrange 9120 9720 indicates that lines in the observed line list within the wavenumber region 9120 and 9720 are to be included
+in the matching. Should be slightly smaller than calcrange.
+Default value 0 50000
+
+
+--- calcrange (double) ---
+Spectral region of calculated line list, given in wavenumbers, for which optimal matching is to be performed.
+For example, calcrange 9120 9720 indicates that lines in the calculated line list within the wavenumber region 9120 and 9720 are to be included
+in the matching. Should be slightly larger than obsrange.
+Default value 0 50000
+
+
+--- GSCD ---
+If keyword is found in input file then GSCDs will be performed. If not found then no GSCDs will be performed and the program will stop after one iteration
+of the optimal matching.
+
+
+--- CDthresh (double/string) ---
+Estimated experimental uncertainty in wavenumbers.
+Takes a real value OR the string 'read' if uncertainty is to be read line-by-line from observed line list.
+Default value 0.005
+
+
+--- Iratio (double) ---
+Used to define ratio of I_obs/I_calc * I_obsmatch/I_calcmatch (or I_calc/I_obs * I_calcmatch/I_obsmatch) that a GSCD partner may fall within.
+For example, if Iratio = 0.5, and an observed line with intensity I_obsmatch is matched to a calculated line with intensity I_calcmatch for which 
+I_obsmatch/I_calcmatch = 0.75, then GSCD partners may fall within 0.75*0.5=0.375 and 0.75*(1/0.5)=1.5.
+Default value 0.333333
+
+
+--- numGSCDs (int) ---
+Number of ground state combination difference (GSCD) partners (in addition to the original match) required for a GSCD set to be considered validated.
+Default value 1
+
+
+--- conflicts (string) ---
+Originally meant to define how user wanted to deal with conflicts between matching and GSCD assignments.
+Not used. Currently GSCD partners always take precedence over matches that conflict with them.
+
+
+--- verbose (int) ---
+Indicates the level of verbosity. 
+Takes integer value between 1 and ???
+
+
+--- Nquanta (int) ---
+The number of upper state and lower state quantum numbers used to uniquely define each transition. Required to perform GSCDs.
+Default value 0
+
+
+--- maxiter (int) ---
+Number of cycles of the optimal assignment + GSCDs procedures the code will perform.
+Default value 1
+
+
+--- readmatches (string) --- introduced version 4-11
+If keyword is found in the input file then the initial matching will be read from a file. The name of the file is to follow the keyword readmatches.
+
+
+--- matching print ---
+If these keywords are found in the input file then all observed lines and calculated lines that fall within the thresholds defined by obsrange, calcrange,
+obsIthresh and calcIthresh (i.e. all lines to be included in the matching), will be written to files <obsfile>.matching and <calcfile>.matching, where 
+<obsfile> and <calcfile> are the names of the experimental and theoretical line list files respectively.
+
+--- matchinfo (string) ---
+Can take values all/obs/calc. Prints all obs and/or calc line information with the matching.
+Default value is neither is printed
+
+
+--- costcoeff (double) ---
+Coefficient of intensity term in cost matrix.
+Default value 0.5

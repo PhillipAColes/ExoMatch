@@ -1,0 +1,13 @@
+obsfile 11_hit16.inp
+calcfile NH3_CoYuTe_296K_stick_0-10500_E-25.inp
+calcIthresh 0.9e-23
+obsIthresh 1.0e-23
+obsrange 4250 4600
+calcrange 4249 4601
+GSCD
+CDthresh 0.005
+Iratio 0.7
+numGSCDs 1
+verbose 1
+Nquanta 3
+maxiter 2
