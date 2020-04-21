@@ -51,12 +51,15 @@ public:
     LinearAssigProb(Input *pInput, ObsLinelist *pObsLinelist, CalcLinelist *pCalcLinelist);
     ~LinearAssigProb();
     void Hungarian();
+    int GetNumXVert(){return num_x_vert;}
+    int GetNumYVert(){return num_y_vert;}
     vector<int> GetXYMatching(){return xy;}
     vector<int> GetYXMatching(){return yx;}
     vector<vector<double>> GetXVert(){return x_vert;}
     vector<vector<double>> GetYVert(){return y_vert;}
     vector<int> GetXIdex(){return x_vert_idex;}
     vector<int> GetYIdex(){return y_vert_idex;}
+    int cp = 80;
 
 };
 

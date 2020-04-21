@@ -25,19 +25,21 @@ class CalcLinelist{
     vector<double> intens;
 //    vector<double> matching_wn;
 //    vector<double> matching_intens;
-    vector<string> spec_lines;
 
     int                  num_of_quanta;
     vector<double>       upper_energy;
     vector<double>       lower_energy;
     vector<vector<string>> upper_quanta;
     vector<vector<string>> lower_quanta;
+    //vector<string>         spec_lines;
 
     public:
     CalcLinelist(Input *pInput);//constructor
     ~CalcLinelist();//destructor
     void initialize();
-    int                    GetNumLinesInFile(){return num_trans;}
+    vector<string>         spec_lines;
+    vector<string>         *pspec_lines;
+    int                    GetNumTrans(){return num_trans;}
     vector<double>         GetWn(){return wn;}
     vector<double>         GetIntens(){return intens;}
     vector<vector<string>> GetUpperQuanta(){return upper_quanta;}

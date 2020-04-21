@@ -52,11 +52,16 @@ void CalcLinelist::initialize(){
 
     int i_tmp = 0;
 
+    //pspec_lines = new string [num_trans][1024];
+
     while(fgets(buffer, 1024, ll_file)){
 
         vector<string> line_tmp;
 
         string line = (string)buffer;
+
+        spec_lines.push_back(line);
+        //pspec_lines[i_tmp] = line;
 
         line_tmp = split_sub(trim(line),' ', 4+2*num_of_quanta);
 
@@ -99,7 +104,13 @@ void CalcLinelist::initialize(){
 
     fclose(ll_file);
 
-    global_assignment_map.assign(num_trans,-1);
+    //global_assignment_map.assign(num_trans,-1);
+
+    pspec_lines = &spec_lines;
+
+    cout << "spec_lines has type: " << typeid(spec_lines).name() << '\n';
+    cout << "&spec_lines has type: " << typeid(&spec_lines).name() << '\n';
+    cout << "pspec_lines has type: " << typeid(pspec_lines).name() << '\n';
 
 }
 

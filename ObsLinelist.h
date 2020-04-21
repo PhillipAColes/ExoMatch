@@ -15,7 +15,7 @@ using namespace std;
 //class ObsLinelist : public BaseLinelist {
 class ObsLinelist{
     private:
-    Input*         input;
+//    Input*         input;
     int            num_trans;
 //    int            num_lines_in_match_set;
     string         ll_file_name;
@@ -41,7 +41,8 @@ class ObsLinelist{
     ObsLinelist(Input *pInput);//constructor
     ~ObsLinelist();//destructor
     void initialize();
-    int            GetNumLinesInFile(){return num_trans;}
+
+    int            GetNumTrans(){return num_trans;}
     vector<double> GetWn(){return wn;}
     vector<double> GetIntens(){return intens;}
     vector<double> GetCDThresh(){return cd_thresh;}

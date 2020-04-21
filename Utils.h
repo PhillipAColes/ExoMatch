@@ -16,6 +16,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+using namespace std;
 
 // trim from start
 std::string &ltrim(std::string &s);
@@ -47,5 +48,13 @@ std::vector<T> slice_vec(std::vector<T> &v, int m, int n)
     std::copy(v.begin() + m, v.begin() + n + 1, std::back_inserter(vec));
     return vec;
 }
+
+bool sortinrev(const pair<double,int> &a, const pair<double,int> &b);
+
+std::vector<std::vector<double> > transpose(const std::vector<std::vector<double> > data);
+
+std::vector<std::vector<int> > transpose_int(const std::vector<std::vector<int> > data);
+
+void swap(int *a, int *b);
 
 #endif /* UTILS_H_ */

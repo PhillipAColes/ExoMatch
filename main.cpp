@@ -13,6 +13,7 @@
 #include "CalcLinelist.h"
 #include "Input.h"
 #include "LinearAssigProb.h"
+#include "CombinationDiffs.h"
 using namespace std;
 
 int main(int argc, char* argv[]){
@@ -71,10 +72,13 @@ int main(int argc, char* argv[]){
 //    }
 
     LinearAssigProb LAP(user_input_ptr,obs_linelist_ptr,calc_linelist_ptr);
+    LinearAssigProb *LAP_ptr = &LAP;
     LAP.Hungarian();
 
-//    CombinationDiffs comb_diffs;
 
+    CombinationDiffs comb_diffs(user_input_ptr,obs_linelist_ptr,calc_linelist_ptr);
+    comb_diffs.setUp(LAP_ptr);
+    comb_diffs.findPartners(calc_linelist_ptr);
 
 }
 

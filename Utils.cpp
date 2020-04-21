@@ -145,3 +145,34 @@ vector<string> split_sub( string line, char separator , int nfields){
     return split_line;
 }
 
+
+bool sortinrev(const pair<double,int> &a, const pair<double,int> &b){
+return (a.first > b.first);
+}
+
+
+std::vector<std::vector<double> > transpose(const std::vector<std::vector<double> > data) {
+    std::vector<std::vector<double> > result(data[0].size(), std::vector<double>(data.size()));
+    for (std::vector<double>::size_type i = 0; i < data[0].size(); i++)
+        for (std::vector<double>::size_type j = 0; j < data.size(); j++) {
+            result[i][j] = data[j][i];
+        }
+    return result;
+}
+
+
+std::vector<std::vector<int> > transpose_int(const std::vector<std::vector<int> > data) {
+    std::vector<std::vector<int> > result(data[0].size(), std::vector<int>(data.size()));
+    for (std::vector<int>::size_type i = 0; i < data[0].size(); i++)
+        for (std::vector<int>::size_type j = 0; j < data.size(); j++) {
+            result[i][j] = data[j][i];
+        }
+    return result;
+}
+
+void swap(int *a, int *b){
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
