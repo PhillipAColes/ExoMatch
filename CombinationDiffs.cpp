@@ -7,9 +7,14 @@
 
 #include "CombinationDiffs.h"
 #include <typeinfo>
+#include <math.h>
 using namespace std;
 
-CombinationDiffs::CombinationDiffs(Input *pInput, ObsLinelist *pObsLinelist, CalcLinelist *pCalcLinelist) : num_assignments(0){
+CombinationDiffs::CombinationDiffs(Input *pInput, ObsLinelist *pObsLinelist, CalcLinelist *pCalcLinelist) : num_assignments(0),
+                                                                                                            num_obs_matches(0){
+
+    intens_ratio =  pInput->GetIntensRatio();
+    min_cd_set_size = pInput->GetGSCDSetSize();
 
     num_obs_trans = pObsLinelist->GetNumTrans();
     obs_wn = pObsLinelist->GetWn();
@@ -19,7 +24,8 @@ CombinationDiffs::CombinationDiffs(Input *pInput, ObsLinelist *pObsLinelist, Cal
     num_calc_trans = pCalcLinelist->GetNumTrans();
     calc_wn = pCalcLinelist->GetWn();
     calc_intens = pCalcLinelist->GetIntens();
-    //calc_lines = &(pCalcLinelist->spec_lines);
+    up_energy = pCalcLinelist->GetUpperEnergy();
+    lw_energy = pCalcLinelist->GetLowerEnergy();
 
     vector<vector<string>> up_quanta = pCalcLinelist->GetUpperQuanta();
     vector<vector<string>> lw_quanta = pCalcLinelist->GetLowerQuanta();
@@ -89,8 +95,6 @@ void CombinationDiffs::findPartners(CalcLinelist *pCalcLinelist){
 
     for( int i=0; i<num_obs_matches; i++){
 
-        int cd_count = 0;
-
         double energy_av = 0;
 
         int obs_match_idex = xy_idex[i][0];
@@ -101,15 +105,60 @@ void CombinationDiffs::findPartners(CalcLinelist *pCalcLinelist){
 
         double match_intens_ratio = obs_intens[obs_match_idex] / calc_intens[calc_match_idex];
 
-//        cout << obs_wn[obs_match_idex] << "  " << obs_intens[obs_match_idex] << "  <--->  "
-//                << calc_wn[calc_match_idex] << "  " << calc_intens[calc_match_idex] << endl;
+        printf("[%-5d]   %12.6f  %13.8e     %12.6f  %13.8e   %12.6f \n", i,
+                obs_wn[obs_match_idex], obs_intens[obs_match_idex],
+                calc_wn[calc_match_idex], calc_intens[calc_match_idex], match_wn_diff);
 
         //if line already assigned then skip GSCDs
-        if(assignments_obs2calc[obs_match_idex] == -1){
+        if(assignments_obs2calc[obs_match_idex] > -1){
             cout << " ( " << obs_wn[obs_match_idex] << " , " << obs_intens[obs_match_idex] << " )   " <<
                     (pCalcLinelist->spec_lines)[calc_match_idex] << endl;
             continue;
         }
+
+
+        vector<int> tmp_gscd_partner;//index of calculated transition with same upper state as match
+
+        for (int j=0; j < num_calc_trans; j++){
+            if (up_quanta_str[j] == up_quanta_str[calc_match_idex] && up_energy[j] == up_energy[calc_match_idex]){
+                tmp_gscd_partner.push_back(j);
+            }
+        }
+
+        //index of (obs,calc) gscd pairs in a gscd set
+        vector<vector<int>>  gscd_set_pairs(1, {obs_match_idex,calc_match_idex});
+
+        // count number of gscd partners found
+        int cd_count = 0;
+
+        // look for gscd partners
+        for (int j=0; j < num_obs_trans; j++){
+            for (int k=0; k < tmp_gscd_partner.size(); k++){
+                if( (fabs(obs_wn[j] - calc_wn[tmp_gscd_partner[k]] - match_wn_diff) < cd_thresh[j])     &&
+                    (obs_intens[j] / calc_intens[tmp_gscd_partner[k]]) < match_intens_ratio*max(intens_ratio,1/intens_ratio) &&
+                    (obs_intens[j] / calc_intens[tmp_gscd_partner[k]]) > match_intens_ratio/max(intens_ratio,1/intens_ratio) &&
+                    assignments_obs2calc[j] == -1                                                        &&
+                    assignments_calc2obs[tmp_gscd_partner[k]] == -1                                      &&
+                    tmp_gscd_partner[k] != calc_match_idex                                               ){
+
+                    gscd_set_pairs.push_back({j,tmp_gscd_partner[k]});
+                    cd_count++;
+
+                }
+            }
+        }
+
+        if(cd_count > 2){
+            for(int j=0; j<cd_count; j++){
+                printf("gscd pair:  %12.6f  %13.8e     %12.6f  %13.8e    %12.6f \n",
+                        obs_wn[gscd_set_pairs[j][0]],obs_intens[gscd_set_pairs[j][0]],
+                        calc_wn[gscd_set_pairs[j][1]] , calc_intens[gscd_set_pairs[j][1]],
+                        obs_wn[gscd_set_pairs[j][0]]-calc_wn[gscd_set_pairs[j][1]]);
+            }
+        }
+
+        printf("\n");
+
 
     }
 

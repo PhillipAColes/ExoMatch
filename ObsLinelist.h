@@ -9,7 +9,7 @@
 #define OBSLINELIST_H_
 #include "Utils.h"
 #include "Input.h"
-#include "LinelistReader.h"
+//#include "LinelistReader.h"
 using namespace std;
 
 //class ObsLinelist : public BaseLinelist {

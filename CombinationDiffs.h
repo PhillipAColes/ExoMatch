@@ -21,16 +21,20 @@ private:
     vector<int> assignments_obs2calc;
     vector<int> assignments_calc2obs;
     vector<vector<int>> xy_idex;
+    int min_cd_set_size;
 
     int num_obs_matches;
     int num_obs_trans;
     vector<double> obs_wn;
     vector<double> obs_intens;
     vector<double> cd_thresh;
+    double intens_ratio;
 
     int num_calc_trans;
     vector<double> calc_wn;
     vector<double> calc_intens;
+    vector<double> up_energy;
+    vector<double> lw_energy;
     vector<string> up_quanta_str;
     vector<string> lw_quanta_str;
     //vector<string> * calc_lines;
