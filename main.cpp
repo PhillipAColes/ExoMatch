@@ -26,56 +26,45 @@ int main(int argc, char* argv[]){
 
     user_input.SetInFileName(cmd_input);
     user_input.ReadInput();
-
-    cout << "obs_range_lw " << user_input.GetObsRangeLw() << std::endl;
-    cout << "obs_range_up " << user_input.GetObsRangeUp() << std::endl;
-    cout << "obs_int_thresh " << user_input.GetObsIntThresh() << std::endl;
-    cout << "calc_range_lw " << user_input.GetCalcRangeLw() << std::endl;
-    cout << "calc_range_up " << user_input.GetCalcRangeUp() << std::endl;
-    cout << "calc_int_thresh " << user_input.GetCalcIntThresh() << std::endl;
-    cout << "obs_file is " << user_input.GetObsLLFileName() << std::endl;
-    cout << "calc_file is " << user_input.GetCalcLLFileName() << std::endl;
-    cout << "costcoeff is " << user_input.GetCostCoeff() << std::endl;
-    cout << "CDthresh is " << user_input.GetCDThresh() << std::endl;
-    cout << "Iratio " << user_input.GetIntensRatio() << std::endl;
-    cout << "numGSCDs " << user_input.GetGSCDSetSize() << std::endl;
-    cout << "Nquanta " << user_input.GetNumOfQuanta() << std::endl;
-    cout << "maxiter " << user_input.GetMaxIter() << std::endl;
-    cout << "readmatches " << user_input.GetMatchesFileName() << std::endl;
-    cout << "matchinfo " << user_input.GetPrintMatchInfo() << std::endl;
+    user_input.printInput();
 
     ObsLinelist obs_linelist(user_input_ptr);
     ObsLinelist *obs_linelist_ptr = &obs_linelist;
-
-    obs_linelist.initialize();
-
-    const static vector<double> obs_nu = obs_linelist.GetWn();
-
-
     CalcLinelist calc_linelist(user_input_ptr);
     CalcLinelist *calc_linelist_ptr = &calc_linelist;
 
-    calc_linelist.initialize();
+    obs_linelist.initialize();
 
+    calc_linelist.initialize();
 
     LinearAssigProb LAP(user_input_ptr,obs_linelist_ptr,calc_linelist_ptr);
     LinearAssigProb *LAP_ptr = &LAP;
 
     CombinationDiffs comb_diffs(user_input_ptr,obs_linelist_ptr,calc_linelist_ptr);
-    CombinationDiffs *comb_diffs_ptr = &comb_diffs;
 
-    LAP.Hungarian();
-    LAP.printMatching(user_input_ptr,obs_linelist_ptr,calc_linelist_ptr);
 
-    comb_diffs.setUp(LAP_ptr,obs_linelist_ptr);
-    comb_diffs.findPartners(calc_linelist_ptr, obs_linelist_ptr, LAP_ptr);
 
-    LAP.clean();
-    LAP.Hungarian();
-    LAP.printMatching(user_input_ptr,obs_linelist_ptr,calc_linelist_ptr);
+    int N_iter = user_input.GetMaxIter();
+    bool perform_gscds_tf = user_input.GetPerformGSCDsTF();
 
-    comb_diffs.setUp(LAP_ptr,obs_linelist_ptr);
-    comb_diffs.findPartners(calc_linelist_ptr, obs_linelist_ptr, LAP_ptr);
+    // Here we start the big loop
+    for(int i=0; i<N_iter; i++){
+
+        LAP.Hungarian();
+        LAP.printMatching(user_input_ptr,obs_linelist_ptr,calc_linelist_ptr);
+
+        if(!perform_gscds_tf) break;
+
+        comb_diffs.setUp(LAP_ptr,obs_linelist_ptr);
+        comb_diffs.findPartners(obs_linelist_ptr, calc_linelist_ptr, LAP_ptr);
+
+        LAP.clean();
+
+    }
+
+
+    printf("\n End of program");
+
 
 }
 

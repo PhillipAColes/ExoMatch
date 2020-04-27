@@ -46,6 +46,7 @@ class Input{
         ~Input();//destructor
         void   SetInFileName(string fname);
         void   ReadInput();
+        void   printInput();
         string GetObsLLFileName(){return obs_ll_file_name;};
         string GetCalcLLFileName(){return calc_ll_file_name;};
         string GetPrintMatchInfo(){return print_match_info;};

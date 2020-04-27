@@ -20,13 +20,8 @@ class ObsLinelist{
     vector<double> wn;
     vector<double> intens;
 
-    double lw_range;
-    double up_range;
-    double int_thresh;
     double tmp_thresh_cd;
     vector<double> cd_thresh;
-
-    void   checkObsInput(char*ln_buff,char*ln_ptr[],double ln_wn,double ln_intens, int ln_cdthr, int ln_num);
 
     friend class CombinationDiffs;
 

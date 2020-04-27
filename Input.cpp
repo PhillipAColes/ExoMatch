@@ -176,3 +176,24 @@ void Input::ReadInput(){
 };
 
 
+void Input::printInput(){
+
+    cout << "obs_range_lw " << obs_range_lw << std::endl;
+    cout << "obs_range_up " << obs_range_up << std::endl;
+    cout << "obs_int_thresh " << obs_int_thresh << std::endl;
+    cout << "calc_range_lw " << calc_range_lw << std::endl;
+    cout << "calc_range_up " << calc_range_up << std::endl;
+    cout << "calc_int_thresh " << calc_int_thresh << std::endl;
+    cout << "obs_file is " << obs_ll_file_name << std::endl;
+    cout << "calc_file is " << calc_ll_file_name << std::endl;
+    cout << "cost_coeff is " << cost_coeff << std::endl;
+    cout << "cd_thresh is " << cd_thresh << std::endl;
+    cout << "intens_ratio " << intens_ratio << std::endl;
+    cout << "gscd_set_size " << gscd_set_size << std::endl;
+    cout << "num_quanta " << num_quanta << std::endl;
+    cout << "max_iter " << max_iter << std::endl;
+    cout << "matches_file_name " << matches_file_name << std::endl;
+    cout << "print_match_info " << print_match_info << std::endl;
+
+}
+

@@ -23,21 +23,10 @@ private:
 
     // from LAP
     int                 num_obs_matches;
-    vector<vector<int>> x2y;
+    vector<vector<int>> x2y_srtd;
     vector<vector<int>> xy_idex;
 
-    // from obs linelist
-//    int                 num_obs_trans;
-//    vector<double>      obs_wn;
-//    vector<double>      obs_intens;
-//    vector<double>      cd_thresh;
-
-    // from calc linelist
-//    int                 num_calc_trans;
-//    vector<double>      calc_wn;
-//    vector<double>      calc_intens;
-//    vector<double>      up_energy;
-//    vector<double>      lw_energy;
+    // from Calc linelist
     vector<string>      up_quanta_str;
     vector<string>      lw_quanta_str;
 
@@ -51,7 +40,7 @@ public:
     CombinationDiffs(Input *pInput, ObsLinelist *Obs, CalcLinelist *Calc);
     ~CombinationDiffs();
     void setUp(LinearAssigProb *pLAP, ObsLinelist *Obs);
-    void findPartners(CalcLinelist *Calc, ObsLinelist *Obs, LinearAssigProb *pLAP);
+    void findPartners(ObsLinelist *Obs, CalcLinelist *Calc, LinearAssigProb *pLAP);
 };
 
 

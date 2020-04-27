@@ -15,6 +15,7 @@ using namespace std;
 LinearAssigProb::LinearAssigProb(Input *pInput, ObsLinelist *pObsLinelist, CalcLinelist *pCalcLinelist) : num_x_vert(0),
                                                                                   num_y_vert(0),
                                                                                   N_vert(0),
+                                                                                  max_match(0),
                                                                                   cost_coeff(pInput->GetCostCoeff()){
 
     double obs_range_lw = pInput->GetObsRangeLw();
