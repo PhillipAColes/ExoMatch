@@ -49,6 +49,8 @@ int main(int argc, char* argv[]){
 
     obs_linelist.initialize();
 
+    const static vector<double> obs_nu = obs_linelist.GetWn();
+
 
     CalcLinelist calc_linelist(user_input_ptr);
     CalcLinelist *calc_linelist_ptr = &calc_linelist;
@@ -63,10 +65,17 @@ int main(int argc, char* argv[]){
     CombinationDiffs *comb_diffs_ptr = &comb_diffs;
 
     LAP.Hungarian();
-    comb_diffs.setUp(LAP_ptr);
+    LAP.printMatching(user_input_ptr,obs_linelist_ptr,calc_linelist_ptr);
+
+    comb_diffs.setUp(LAP_ptr,obs_linelist_ptr);
     comb_diffs.findPartners(calc_linelist_ptr, obs_linelist_ptr, LAP_ptr);
+
     LAP.clean();
     LAP.Hungarian();
+    LAP.printMatching(user_input_ptr,obs_linelist_ptr,calc_linelist_ptr);
+
+    comb_diffs.setUp(LAP_ptr,obs_linelist_ptr);
+    comb_diffs.findPartners(calc_linelist_ptr, obs_linelist_ptr, LAP_ptr);
 
 }
 

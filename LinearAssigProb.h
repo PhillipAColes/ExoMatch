@@ -54,6 +54,7 @@ public:
     void Hungarian();
     void removePair(int x, int y);
     void clean();
+    void printMatching(Input *pInput, ObsLinelist *pObsLinelist, CalcLinelist *pCalcLinelist);
     int GetNumXVert(){return num_x_vert;}
     int GetNumYVert(){return num_y_vert;}
     vector<vector<int>> GetMatching(){return x2y;}

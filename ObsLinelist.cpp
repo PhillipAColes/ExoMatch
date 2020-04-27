@@ -47,6 +47,10 @@ void ObsLinelist::initialize(){
 
     while(fgets(buffer, 1024, ll_file)){
 
+        string line = (string)buffer;
+
+        spec_lines.push_back(line);
+
         wn_tmp = strtod(buffer,&ln_ptr[0]);
 
         intens_tmp = strtod(ln_ptr[0],&ln_ptr[1]);

@@ -25,6 +25,8 @@ class CalcLinelist{
     vector<vector<string>> upper_quanta;
     vector<vector<string>> lower_quanta;
 
+    friend class CombinationDiffs;
+
     public:
     CalcLinelist(Input *pInput);//constructor
     ~CalcLinelist();//destructor

@@ -19,7 +19,6 @@ class ObsLinelist{
     string         linelist_type;
     vector<double> wn;
     vector<double> intens;
-    vector<string> spec_lines;
 
     double lw_range;
     double up_range;
@@ -29,11 +28,13 @@ class ObsLinelist{
 
     void   checkObsInput(char*ln_buff,char*ln_ptr[],double ln_wn,double ln_intens, int ln_cdthr, int ln_num);
 
+    friend class CombinationDiffs;
+
     public:
     ObsLinelist(Input *pInput);//constructor
     ~ObsLinelist();//destructor
     void initialize();
-
+    vector<string> spec_lines;
     int            GetNumTrans(){return num_trans;}
     vector<double> GetWn(){return wn;}
     vector<double> GetIntens(){return intens;}

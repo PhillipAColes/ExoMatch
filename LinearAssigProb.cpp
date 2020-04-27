@@ -8,6 +8,7 @@
 #include "LinearAssigProb.h"
 #include "Utils.h"
 #include <math.h>
+#include <iomanip>
 using namespace std;
 #define INF 100000000
 
@@ -116,13 +117,8 @@ void LinearAssigProb::Hungarian(){
         augment();
     }
 
-    for (int x = 0; x < num_x_vert; x++){
-       // cout << x <<"  "<< xy[x] << endl;
+    for (int x = 0; x < num_x_vert; x++)
         x2y[x] = {x,xy[x]};
-
-        printf("%i  %i     %12.6f  %13.8e     %12.6f  %13.8e\n",x,xy[x],x_vert[x][0],
-                x_vert[x][1],y_vert[xy[x]][0],y_vert[xy[x]][1]);
-    }
 
 }
 
@@ -294,3 +290,22 @@ void LinearAssigProb::clean(){
 
 }
 
+void LinearAssigProb::printMatching(Input *pInput, ObsLinelist *pObsLinelist, CalcLinelist *pCalcLinelist){
+
+    for (int i = 0; i < num_x_vert; i++){
+        cout << setw(5) << i+1 << "   " << setw(5) << xy[i]+1 << "    "
+             << setw(12) << fixed << setprecision(6) << x_vert[i][0] << "    "  << setw(12) << scientific << setprecision(8) << x_vert[i][1] << "   "
+             << setw(12) << fixed << setprecision(6) << y_vert[xy[i]][0] << "    "  << setw(12) << scientific << setprecision(8) << y_vert[xy[i]][1];
+        if(pInput->GetPrintMatchInfo()=="none"){
+            cout << endl;
+        }else if(pInput->GetPrintMatchInfo()=="obs"){
+            cout << "   |  Obs line:   " << trim((pObsLinelist->spec_lines)[x_vert_idex[i]]) << endl;
+        }else if(pInput->GetPrintMatchInfo()=="calc"){
+            cout << "   |  Calc line:   " << trim((pCalcLinelist->spec_lines)[y_vert_idex[xy[i]]]) << endl;
+        }else if(pInput->GetPrintMatchInfo()=="all"){
+            cout << "   |  Obs line:   " << trim((pObsLinelist->spec_lines)[x_vert_idex[i]])
+                 << "   |  Calc line:   " << trim((pCalcLinelist->spec_lines)[y_vert_idex[xy[i]]]) << endl;
+        }
+    }
+
+}
