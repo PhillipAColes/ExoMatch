@@ -52,8 +52,6 @@ void CalcLinelist::initialize(){
 
     int i_tmp = 0;
 
-    //pspec_lines = new string [num_trans][1024];
-
     while(fgets(buffer, 1024, ll_file)){
 
         vector<string> line_tmp;
@@ -61,12 +59,9 @@ void CalcLinelist::initialize(){
         string line = (string)buffer;
 
         spec_lines.push_back(line);
-        //pspec_lines[i_tmp] = line;
 
         line_tmp = split_sub(trim(line),' ', 4+2*num_of_quanta);
 
-//        cout << num_of_quanta << " " << 2*num_of_quanta+3 << " wn: '" <<  line_tmp[0].c_str() << "' intens: '" <<  line_tmp[1].c_str() << "' upener: '"
-//                << line_tmp[2+num_of_quanta].c_str() << "' lwener:     '" << line_tmp[(2*num_of_quanta)+3].c_str() << "'" <<  endl;
         if( !isPositiveFloat(line_tmp[0].c_str())                 ||
             !isPositiveFloat(line_tmp[1].c_str())                 ||
             !isPositiveFloat(line_tmp[2+num_of_quanta].c_str())   ||
@@ -88,11 +83,6 @@ void CalcLinelist::initialize(){
 
         lower_energy.push_back(atof(line_tmp[2*num_of_quanta+3].c_str()));
 
-//        cout << wn[i_tmp] << " " << intens[i_tmp] << " " << upper_quanta[i_tmp][0] << " "
-//                << upper_quanta[i_tmp][1] << " " << upper_quanta[i_tmp][2] << " "
-//                << upper_energy[i_tmp] << " " << lower_quanta[i_tmp][0] << " "
-//                << lower_quanta[i_tmp][1] << " " << lower_quanta[i_tmp][2] << " "
-//                << lower_energy[i_tmp] << endl;
         i_tmp++;
     }
 
@@ -103,14 +93,6 @@ void CalcLinelist::initialize(){
     cout << "Time taken to read in calc file : " << duration << "seconds" << endl;
 
     fclose(ll_file);
-
-    //global_assignment_map.assign(num_trans,-1);
-
-    pspec_lines = &spec_lines;
-
-    cout << "spec_lines has type: " << typeid(spec_lines).name() << '\n';
-    cout << "&spec_lines has type: " << typeid(&spec_lines).name() << '\n';
-    cout << "pspec_lines has type: " << typeid(pspec_lines).name() << '\n';
 
 }
 

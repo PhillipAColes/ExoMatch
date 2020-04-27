@@ -13,8 +13,8 @@ using namespace std;
 CombinationDiffs::CombinationDiffs(Input *pInput, ObsLinelist *pObsLinelist, CalcLinelist *pCalcLinelist) : num_assignments(0),
                                                                                                             num_obs_matches(0){
 
+    min_num_cd_partners = pInput->GetGSCDSetSize();
     intens_ratio =  pInput->GetIntensRatio();
-    min_cd_set_size = pInput->GetGSCDSetSize();
 
     num_obs_trans = pObsLinelist->GetNumTrans();
     obs_wn = pObsLinelist->GetWn();
@@ -47,9 +47,9 @@ CombinationDiffs::~CombinationDiffs(){}
 void CombinationDiffs::setUp(LinearAssigProb *pLAP){
 
     num_obs_matches = pLAP->GetNumXVert();
+    x2y = pLAP->GetMatching();
     vector<int> x_idex = pLAP->GetXIdex();
     vector<int> y_idex = pLAP->GetYIdex();
-    vector<int> xy = pLAP->GetXYMatching();
 
 
     // xy_idex[i][0] is the index of the ith matched obs line in the (complete) observed line list,
@@ -59,7 +59,7 @@ void CombinationDiffs::setUp(LinearAssigProb *pLAP){
     xy_idex.resize(num_obs_matches, vector<int> (2));
     for(int i=0; i<num_obs_matches; i++){
         xy_idex[i][0] = x_idex[i];
-        xy_idex[i][1] = y_idex[xy[i]];
+        xy_idex[i][1] = y_idex[x2y[i][1]];
     }
 
 
@@ -70,27 +70,25 @@ void CombinationDiffs::setUp(LinearAssigProb *pLAP){
       swapped = false;
       for (int j = 0; j < num_obs_matches-i-1; j++) {
          if (obs_intens[xy_idex[j][0]] < obs_intens[xy_idex[j+1][0]]) {
-             int tmp_x = xy_idex[j][0];
-             int tmp_y = xy_idex[j][1];
-             xy_idex[j][0] = xy_idex[j+1][0];
-             xy_idex[j][1] = xy_idex[j+1][1];
-             xy_idex[j+1][0] = tmp_x;
-             xy_idex[j+1][1] = tmp_y;
+             swap2d(&xy_idex[j],&xy_idex[j+1]);
+             swap2d(&x2y[j],&x2y[j+1]);
+//             int tmp_x = xy_idex[j][0];
+//             int tmp_y = xy_idex[j][1];
+//             xy_idex[j][0] = xy_idex[j+1][0];
+//             xy_idex[j][1] = xy_idex[j+1][1];
+//             xy_idex[j+1][0] = tmp_x;
+//             xy_idex[j+1][1] = tmp_y;
             swapped = true;
          }
       }
       if (swapped == false) break;
     }
 
-    for(int i=0;i<num_obs_matches;i++){
-        cout << obs_wn[xy_idex[i][0]] << "  " << obs_intens[xy_idex[i][0]] << "  <--->  "
-                << calc_wn[xy_idex[i][1]] << "  " << calc_intens[xy_idex[i][1]] << endl;
-    }
 
 }
 
 
-void CombinationDiffs::findPartners(CalcLinelist *pCalcLinelist){
+void CombinationDiffs::findPartners(CalcLinelist *pCalcLinelist, ObsLinelist *pObsLinelist, LinearAssigProb *pLAP){
 
 
     for( int i=0; i<num_obs_matches; i++){
@@ -111,8 +109,10 @@ void CombinationDiffs::findPartners(CalcLinelist *pCalcLinelist){
 
         //if line already assigned then skip GSCDs
         if(assignments_obs2calc[obs_match_idex] > -1){
-            cout << " ( " << obs_wn[obs_match_idex] << " , " << obs_intens[obs_match_idex] << " )   " <<
-                    (pCalcLinelist->spec_lines)[calc_match_idex] << endl;
+            cout << " Already assigned to calc line   " <<
+                    (pCalcLinelist->spec_lines)[assignments_obs2calc[obs_match_idex]] << endl;
+           // printf("Already assigned to calc line   %s \n",&(pCalcLinelist->spec_lines)[calc_match_idex]);
+            printf("\n");
             continue;
         }
 
@@ -143,18 +143,23 @@ void CombinationDiffs::findPartners(CalcLinelist *pCalcLinelist){
 
                     gscd_set_pairs.push_back({j,tmp_gscd_partner[k]});
                     cd_count++;
-
                 }
             }
         }
 
-        if(cd_count > 2){
-            for(int j=0; j<cd_count; j++){
+
+        if(cd_count >= min_num_cd_partners){
+            for(int j=0; j<cd_count+1; j++){
+                assignments_obs2calc[gscd_set_pairs[j][0]] = gscd_set_pairs[j][1];
+                assignments_calc2obs[gscd_set_pairs[j][1]] = gscd_set_pairs[j][0];
                 printf("gscd pair:  %12.6f  %13.8e     %12.6f  %13.8e    %12.6f \n",
                         obs_wn[gscd_set_pairs[j][0]],obs_intens[gscd_set_pairs[j][0]],
                         calc_wn[gscd_set_pairs[j][1]] , calc_intens[gscd_set_pairs[j][1]],
                         obs_wn[gscd_set_pairs[j][0]]-calc_wn[gscd_set_pairs[j][1]]);
             }
+            //remove assignments from future matching
+            pLAP->removePair(x2y[i][0],x2y[i][1]);
+
         }
 
         printf("\n");

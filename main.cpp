@@ -45,40 +45,28 @@ int main(int argc, char* argv[]){
     cout << "matchinfo " << user_input.GetPrintMatchInfo() << std::endl;
 
     ObsLinelist obs_linelist(user_input_ptr);
-    obs_linelist.initialize();
     ObsLinelist *obs_linelist_ptr = &obs_linelist;
 
+    obs_linelist.initialize();
+
+
     CalcLinelist calc_linelist(user_input_ptr);
-    calc_linelist.initialize();
     CalcLinelist *calc_linelist_ptr = &calc_linelist;
 
-//    int num_lines = obs_linelist.GetNumLinesInFile();
-//
-//    vector<double> wavenumber = obs_linelist.GetWn();
-//    vector<double> intens = obs_linelist.GetIntens();
-//    vector<double> cds = obs_linelist.GetCDThresh();
-//
-//    for(int i=0; i<num_lines; i++){
-//        cout << wavenumber[i] << "  " << intens[i] << "  " << cds[i] << endl;
-//    }
-//
-//    num_lines = calc_linelist.GetNumLinesInFile();
-//
-//    vector<double> cwavenumber = calc_linelist.GetWn();
-//    vector<double> cintens = calc_linelist.GetIntens();
-//
-//    for(int i=0; i<num_lines; i++){
-//        cout << cwavenumber[i] << "  " << cintens[i] << "  " << endl;
-//    }
+    calc_linelist.initialize();
+
 
     LinearAssigProb LAP(user_input_ptr,obs_linelist_ptr,calc_linelist_ptr);
     LinearAssigProb *LAP_ptr = &LAP;
-    LAP.Hungarian();
-
 
     CombinationDiffs comb_diffs(user_input_ptr,obs_linelist_ptr,calc_linelist_ptr);
+    CombinationDiffs *comb_diffs_ptr = &comb_diffs;
+
+    LAP.Hungarian();
     comb_diffs.setUp(LAP_ptr);
-    comb_diffs.findPartners(calc_linelist_ptr);
+    comb_diffs.findPartners(calc_linelist_ptr, obs_linelist_ptr, LAP_ptr);
+    LAP.clean();
+    LAP.Hungarian();
 
 }
 

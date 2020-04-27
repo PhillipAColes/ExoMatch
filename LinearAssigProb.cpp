@@ -61,7 +61,7 @@ void LinearAssigProb::generateCostMatrix(){
     cost.resize(num_y_vert,vector<double>(num_y_vert));
 
     cout << "Coefficient of intensity contribution to cost matrix = " << cost_coeff << '\n' << std::endl;
-    cout << "Generating cost matrix" << endl;
+    cout << "Generating cost matrix..." << endl;
 
     // fill in cost matrix
     for(int i = 0; i < num_x_vert; i++){
@@ -87,15 +87,14 @@ void LinearAssigProb::generateCostMatrix(){
         }
     }
 
+    cout << "... done\n" << endl;
+
 }
 
 
 void LinearAssigProb::Hungarian(){
 
-//    cost.resize(n,vector<double>(n));
-//    lx.resize(n);
-//    ly.resize(n);
-
+    x2y.resize(num_x_vert);
     xy.resize(N_vert);
     yx.resize(N_vert);
     S.resize(N_vert);
@@ -117,8 +116,13 @@ void LinearAssigProb::Hungarian(){
         augment();
     }
 
-    for (int x = 0; x < num_x_vert; x++)
-        cout << x <<"  "<< xy[x] << endl;
+    for (int x = 0; x < num_x_vert; x++){
+       // cout << x <<"  "<< xy[x] << endl;
+        x2y[x] = {x,xy[x]};
+
+        printf("%i  %i     %12.6f  %13.8e     %12.6f  %13.8e\n",x,xy[x],x_vert[x][0],
+                x_vert[x][1],y_vert[xy[x]][0],y_vert[xy[x]][1]);
+    }
 
 }
 
@@ -253,3 +257,40 @@ void LinearAssigProb::augment(){ //main function of the algorithm
     }
 return;
 }//end of augment() function
+
+
+void LinearAssigProb::removePair(int x, int y){
+
+    vector<int>::iterator it_y = find(xy.begin(),xy.end(),y);
+    vector<int>::iterator it_x = find(yx.begin(),yx.end(),x);
+    int y_idex = std::distance(xy.begin(),it_y);//it_y - xy.begin();
+    int x_idex = std::distance(yx.begin(),it_x);//it_x - yx.begin();
+
+    xy.erase(xy.begin()+y_idex);
+    yx.erase(yx.begin()+x_idex);
+    x_vert_idex.erase(x_vert_idex.begin()+y_idex);
+    y_vert_idex.erase(y_vert_idex.begin()+x_idex);
+    x_vert.erase(x_vert.begin()+y_idex);
+    y_vert.erase(y_vert.begin()+x_idex);
+    num_x_vert--;
+    num_y_vert--;
+    N_vert = num_y_vert;
+
+}
+
+void LinearAssigProb::clean(){
+
+    x2y.clear();
+    xy.clear();
+    yx.clear();
+    S.clear();
+    T.clear();
+    slack.clear();
+    slackx.clear();
+    previous.clear();
+    lx.clear();
+    ly.clear();
+    cost.clear();
+
+}
+

@@ -73,8 +73,6 @@ void ObsLinelist::initialize(){
 
     fclose(ll_file);
 
-    global_assignment_map.assign(num_trans,-1);
-
 }
 
 

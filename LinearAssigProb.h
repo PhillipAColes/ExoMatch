@@ -36,6 +36,7 @@ private:
     vector<double>         ly;
     vector<int>            xy;
     vector<int>            yx;
+    vector<vector<int>>    x2y;
     vector<bool>           S;
     vector<bool>           T;
     vector<double>         slack;
@@ -51,15 +52,16 @@ public:
     LinearAssigProb(Input *pInput, ObsLinelist *pObsLinelist, CalcLinelist *pCalcLinelist);
     ~LinearAssigProb();
     void Hungarian();
+    void removePair(int x, int y);
+    void clean();
     int GetNumXVert(){return num_x_vert;}
     int GetNumYVert(){return num_y_vert;}
-    vector<int> GetXYMatching(){return xy;}
-    vector<int> GetYXMatching(){return yx;}
+    vector<vector<int>> GetMatching(){return x2y;}
     vector<vector<double>> GetXVert(){return x_vert;}
     vector<vector<double>> GetYVert(){return y_vert;}
     vector<int> GetXIdex(){return x_vert_idex;}
     vector<int> GetYIdex(){return y_vert_idex;}
-    int cp = 80;
+
 
 };
 
