@@ -6,6 +6,7 @@
  */
 
 #include "CombinationDiffs.h"
+#include "Timer.h"
 #include <typeinfo>
 #include <math.h>
 using namespace std;
@@ -73,6 +74,8 @@ void CombinationDiffs::setUp(LinearAssigProb *pLAP, ObsLinelist *Obs){
 
 void CombinationDiffs::findPartners(ObsLinelist *Obs, CalcLinelist *Calc, LinearAssigProb *pLAP){
 
+
+    Timer::getInstance().StartTimer("perform combination differences");
 
     for( int i=0; i<num_obs_matches; i++){
 
@@ -150,6 +153,9 @@ void CombinationDiffs::findPartners(ObsLinelist *Obs, CalcLinelist *Calc, Linear
 
 
     }
+
+    Timer::getInstance().EndTimer("perform combination differences");
+    Timer::getInstance().printTimerData("perform combination differences");
 
 }
 

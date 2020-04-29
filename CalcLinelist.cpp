@@ -12,6 +12,7 @@
 #include <string.h>
 #include "Input.h"
 #include "Utils.h"
+#include "Timer.h"
 #include "CalcLinelist.h"
 using namespace std;
 std::clock_t timestart,timeend,ticstaken,totaltimestart,totaltimeend;
@@ -24,7 +25,7 @@ CalcLinelist::CalcLinelist(Input *pInput) : linelist_type("calc"){
 
 };
 
-CalcLinelist::~CalcLinelist(){}//destructor
+CalcLinelist::~CalcLinelist(){}
 
 void CalcLinelist::initialize(){
 
@@ -48,7 +49,7 @@ void CalcLinelist::initialize(){
 
     cout << "Begin reading in " << linelist_type << " linelist" << endl;
 
-    timestart = std::clock();
+    Timer::getInstance().StartTimer("read calc linelist");
 
     int i_tmp = 0;
 
@@ -86,11 +87,10 @@ void CalcLinelist::initialize(){
         i_tmp++;
     }
 
-    timeend = std::clock();
-    double duration = (timeend - timestart)/(double) CLOCKS_PER_SEC;
+    printf("... done\n\n");
 
-    cout << "... done" << endl;
-    cout << "Time taken to read in calc file : " << duration << "seconds" << endl;
+    Timer::getInstance().EndTimer("read calc linelist");
+    Timer::getInstance().printTimerData("read calc linelist");
 
     fclose(ll_file);
 

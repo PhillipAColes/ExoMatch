@@ -7,6 +7,7 @@
 #include <memory>
 #include <errno.h>
 #include <cctype>
+#include "Timer.h"
 #include "Input.h"
 #include "Utils.h"
 #include "ObsLinelist.h"
@@ -38,6 +39,8 @@ void ObsLinelist::initialize(){
     rewind(ll_file);
 
     cout << "Begin reading in " << linelist_type << " linelist" << endl;
+
+    Timer::getInstance().StartTimer("read obs linelist");
 
     int i_tmp = 0;
 
@@ -80,7 +83,10 @@ void ObsLinelist::initialize(){
         i_tmp++;
     }
 
-    printf("... done\n");
+    printf("... done\n\n");
+
+    Timer::getInstance().EndTimer("read obs linelist");
+    Timer::getInstance().printTimerData("read obs linelist");
 
     fclose(ll_file);
 

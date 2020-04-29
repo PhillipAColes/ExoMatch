@@ -15,7 +15,7 @@
 #include "Input.h"
 #include "LinearAssigProb.h"
 #include "CombinationDiffs.h"
-#include <Windows.h>
+//#include <Windows.h>
 using namespace std;
 
 int main(int argc, char* argv[]){
@@ -23,23 +23,8 @@ int main(int argc, char* argv[]){
     std::string cmd_input = argv[1];
     std::cout << "cmd input is " << cmd_input << std::endl;
 
-    Timer::getInstance().StartTimer("Read Input 4p1s");
-    Sleep(1000);
+    Timer::getInstance().StartTimer("execute ExoMatch");
 
-    Timer::getInstance().StartTimer("ReadInput_100ms");
-    Sleep(100);
-    Timer::getInstance().EndTimer("ReadInput_100ms");
-    Timer::getInstance().printTimerData("ReadInput_100ms");
-
-    Timer::getInstance().StartTimer("ReadInput_3s");
-    Sleep(3000);
-    Timer::getInstance().EndTimer("ReadInput_3s");
-    Timer::getInstance().printTimerData("ReadInput_3s");
-
-    Timer::getInstance().EndTimer("Read Input 4p1s");
-    Timer::getInstance().printTimerData("Read Input 4p1s");
-
-    exit(0);
     Input user_input;
     Input *user_input_ptr = &user_input;
 
@@ -81,6 +66,8 @@ int main(int argc, char* argv[]){
 
     }
 
+    Timer::getInstance().EndTimer("execute ExoMatch");
+    Timer::getInstance().printTimerData("execute ExoMatch");
 
     printf("\n End of program");
 

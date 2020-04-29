@@ -7,6 +7,7 @@
 
 #include "LinearAssigProb.h"
 #include "Utils.h"
+#include "Timer.h"
 #include <math.h>
 #include <iomanip>
 using namespace std;
@@ -63,7 +64,10 @@ void LinearAssigProb::generateCostMatrix(){
     cost.resize(num_y_vert,vector<double>(num_y_vert));
 
     cout << "Coefficient of intensity contribution to cost matrix = " << cost_coeff << '\n' << std::endl;
-    cout << "Generating cost matrix..." << endl;
+
+    cout << "Generating cost matrix...\n" << endl;
+
+    Timer::getInstance().StartTimer("generate cost matrix");
 
     // fill in cost matrix
     for(int i = 0; i < num_x_vert; i++){
@@ -91,6 +95,9 @@ void LinearAssigProb::generateCostMatrix(){
 
     cout << "... done\n" << endl;
 
+    Timer::getInstance().EndTimer("generate cost matrix");
+    Timer::getInstance().printTimerData("generate cost matrix");
+
 }
 
 
@@ -107,6 +114,8 @@ void LinearAssigProb::Hungarian(){
 
     generateCostMatrix();
 
+    Timer::getInstance().StartTimer("match line lists");
+
     initLabels();
 
     xy.assign(N_vert,-1);
@@ -117,6 +126,9 @@ void LinearAssigProb::Hungarian(){
     while (max_match<N_vert){
         augment();
     }
+
+    Timer::getInstance().EndTimer("match line lists");
+    Timer::getInstance().printTimerData("match line lists");
 
     for (int x = 0; x < num_x_vert; x++)
         x2y[x] = {x,xy[x]};
