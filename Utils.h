@@ -16,6 +16,8 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+
+
 using namespace std;
 
 // trim from start
@@ -58,5 +60,7 @@ std::vector<std::vector<int> > transpose_int(const std::vector<std::vector<int> 
 //void swap(int *a, int *b);
 
 void swap2d(vector<int> *a, vector<int> *b);
+
+bool IsCPPVersionPost2011();
 
 #endif /* UTILS_H_ */

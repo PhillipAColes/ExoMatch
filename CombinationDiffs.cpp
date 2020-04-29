@@ -45,10 +45,10 @@ void CombinationDiffs::setUp(LinearAssigProb *pLAP, ObsLinelist *Obs){
     // xy_idex[i][1] is the index of its matched partner in the (complete) calculated line list
     // i.e. line number xy_idex[i][0] in the obs line list has been matched to line number
     // xy_idex[i][1] in the calc line list.
-    xy_idex.resize(num_obs_matches, vector<int> (2));
+    xy_idex_srtd.resize(num_obs_matches, vector<int> (2));
     for(int i=0; i<num_obs_matches; i++){
-        xy_idex[i][0] = x_idex[i];
-        xy_idex[i][1] = y_idex[x2y_srtd[i][1]];
+        xy_idex_srtd[i][0] = x_idex[i];
+        xy_idex_srtd[i][1] = y_idex[x2y_srtd[i][1]];
     }
 
 
@@ -58,8 +58,8 @@ void CombinationDiffs::setUp(LinearAssigProb *pLAP, ObsLinelist *Obs){
     for (int i = 0; i < num_obs_matches-1; i++){
       swapped = false;
       for (int j = 0; j < num_obs_matches-i-1; j++) {
-         if (Obs->intens[xy_idex[j][0]] < Obs->intens[xy_idex[j+1][0]]) {
-             swap2d(&xy_idex[j],&xy_idex[j+1]);
+         if (Obs->intens[xy_idex_srtd[j][0]] < Obs->intens[xy_idex_srtd[j+1][0]]) {
+             swap2d(&xy_idex_srtd[j],&xy_idex_srtd[j+1]);
              swap2d(&x2y_srtd[j],&x2y_srtd[j+1]);
             swapped = true;
          }
@@ -78,9 +78,9 @@ void CombinationDiffs::findPartners(ObsLinelist *Obs, CalcLinelist *Calc, Linear
 
         double energy_av = 0;
 
-        int obs_match_idex = xy_idex[i][0];
+        int obs_match_idex = xy_idex_srtd[i][0];
 
-        int calc_match_idex = xy_idex[i][1];
+        int calc_match_idex = xy_idex_srtd[i][1];
 
         double match_wn_diff = Obs->wn[obs_match_idex] - Calc->wn[calc_match_idex];
 

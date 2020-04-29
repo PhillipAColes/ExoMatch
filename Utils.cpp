@@ -176,3 +176,13 @@ void swap2d(vector<int> *a, vector<int> *b){
     *b = temp;  // value 'temp' is copied into where b points to (*b). Here the address of b doesn't change, the value held at that address does
 }
 
+bool IsCPPVersionPost2011(){
+
+    if (__cplusplus == 201703L) return true; //std::cout << "C++17\n";
+    else if (__cplusplus == 201402L) return true; //std::cout << "C++14\n";
+    else if (__cplusplus == 201103L) return true; //std::cout << "C++11\n";
+    else if (__cplusplus == 199711L) return false; //std::cout << "C++98\n";
+    else return false; //std::cout << "pre-standard C++\n";
+
+}
+

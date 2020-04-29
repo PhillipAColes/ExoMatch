@@ -24,7 +24,7 @@ private:
     // from LAP
     int                 num_obs_matches;
     vector<vector<int>> x2y_srtd;
-    vector<vector<int>> xy_idex;
+    vector<vector<int>> xy_idex_srtd;
 
     // from Calc linelist
     vector<string>      up_quanta_str;
