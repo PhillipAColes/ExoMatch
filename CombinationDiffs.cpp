@@ -106,11 +106,24 @@ void CombinationDiffs::findPartners(ObsLinelist *Obs, CalcLinelist *Calc, Linear
 
         vector<int> tmp_gscd_partner;//index of calculated transition with same upper state as match
 
-        for (int j=0; j < Calc->num_trans; j++){
-            if (up_quanta_str[j] == up_quanta_str[calc_match_idex] && Calc->upper_energy[j] == Calc->upper_energy[calc_match_idex]){
-                tmp_gscd_partner.push_back(j);
+        #pragma omp parallel
+        {
+            vector<int> v_private;
+            #pragma omp for nowait
+            for (int j=0; j < Calc->num_trans; j++){
+                if (up_quanta_str[j] == up_quanta_str[calc_match_idex] && Calc->upper_energy[j] == Calc->upper_energy[calc_match_idex]){
+                    v_private.push_back(j);
+                }
             }
+            #pragma omp critical
+            tmp_gscd_partner.insert(tmp_gscd_partner.end(), v_private.begin(), v_private.end());
         }
+
+//        for (int j=0; j < Calc->num_trans; j++){
+//            if (up_quanta_str[j] == up_quanta_str[calc_match_idex] && Calc->upper_energy[j] == Calc->upper_energy[calc_match_idex]){
+//                tmp_gscd_partner.push_back(j);
+//            }
+//        }
 
         //index of (obs,calc) gscd pairs in a gscd set
         vector<vector<int>>  gscd_set_pairs(1, {obs_match_idex,calc_match_idex});
