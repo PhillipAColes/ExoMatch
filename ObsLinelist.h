@@ -9,30 +9,21 @@
 #define OBSLINELIST_H_
 #include "Utils.h"
 #include "Input.h"
+#include "BaseLinelist.h"
 using namespace std;
 
-//class ObsLinelist : public BaseLinelist {
-class ObsLinelist{
+class ObsLinelist : public BaseLinelist {
     private:
-    int            num_trans;
-    string         ll_file_name;
-    string         linelist_type;
-    vector<double> wn;
-    vector<double> intens;
-
     double tmp_thresh_cd;
     vector<double> cd_thresh;
 
+    friend class LinearAssigProb;
     friend class CombinationDiffs;
 
     public:
     ObsLinelist(Input *pInput);//constructor
     ~ObsLinelist();//destructor
     void initialize();
-    vector<string> spec_lines;
-    int            GetNumTrans(){return num_trans;}
-    vector<double> GetWn(){return wn;}
-    vector<double> GetIntens(){return intens;}
     vector<double> GetCDThresh(){return cd_thresh;}
 };
 

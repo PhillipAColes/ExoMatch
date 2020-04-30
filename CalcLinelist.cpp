@@ -18,7 +18,7 @@ using namespace std;
 std::clock_t timestart,timeend,ticstaken,totaltimestart,totaltimeend;
 
 //Constructor to initialise data members in class Input
-CalcLinelist::CalcLinelist(Input *pInput) : linelist_type("calc"){
+CalcLinelist::CalcLinelist(Input *pInput){
 
     ll_file_name = pInput->GetCalcLLFileName();
     num_of_quanta = pInput->GetNumOfQuanta();
@@ -47,7 +47,7 @@ void CalcLinelist::initialize(){
 
     rewind(ll_file);
 
-    cout << "Begin reading in " << linelist_type << " linelist" << endl;
+    cout << "Begin reading in " << ll_file_name.c_str() << " linelist\n" << endl;
 
     Timer::getInstance().StartTimer("read calc linelist");
 

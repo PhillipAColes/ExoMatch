@@ -6,8 +6,6 @@ ExoMatch.exe
 Input.d
 Input.o
 inputfile
-BaseLinelist.cpp
-BaseLinelist.h
 LinelistReader.cpp
 LinelistReader.h
 main.d

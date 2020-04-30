@@ -13,7 +13,7 @@
 #include "ObsLinelist.h"
 using namespace std;
 
-ObsLinelist::ObsLinelist(Input *pInput) : linelist_type("obs"){
+ObsLinelist::ObsLinelist(Input *pInput){
 
     ll_file_name = pInput->GetObsLLFileName();
     tmp_thresh_cd = pInput->GetCDThresh();
@@ -38,7 +38,7 @@ void ObsLinelist::initialize(){
 
     rewind(ll_file);
 
-    cout << "Begin reading in " << linelist_type << " linelist" << endl;
+    cout << "Begin reading in " << ll_file_name.c_str() << " linelist\n" << endl;
 
     Timer::getInstance().StartTimer("read obs linelist");
 

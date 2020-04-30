@@ -13,7 +13,7 @@
 using namespace std;
 #define INF 100000000
 
-LinearAssigProb::LinearAssigProb(Input *pInput, ObsLinelist *pObsLinelist, CalcLinelist *pCalcLinelist) : num_x_vert(0),
+LinearAssigProb::LinearAssigProb(Input *pInput, ObsLinelist *Obs, CalcLinelist *Calc) : num_x_vert(0),
                                                                                   num_y_vert(0),
                                                                                   N_vert(0),
                                                                                   max_match(0),
@@ -26,23 +26,17 @@ LinearAssigProb::LinearAssigProb(Input *pInput, ObsLinelist *pObsLinelist, CalcL
     double obs_int_thresh = pInput->GetObsIntThresh();
     double calc_int_thresh = pInput->GetCalcIntThresh();
 
-    vector<double> obs_wn = pObsLinelist->GetWn();
-    vector<double> obs_intens = pObsLinelist->GetIntens();
-
-    vector<double> calc_wn = pCalcLinelist->GetWn();
-    vector<double> calc_intens = pCalcLinelist->GetIntens();
-
-    for ( int i = 0 ; i < obs_wn.size() ; i++ ){
-        if (obs_wn[i] > obs_range_lw && obs_wn[i] < obs_range_up && obs_intens[i] > obs_int_thresh){
-            x_vert.push_back({obs_wn[i],obs_intens[i]});
+    for ( int i = 0 ; i < Obs->num_trans; i++ ){
+        if (Obs->wn[i] > obs_range_lw && Obs->wn[i] < obs_range_up && Obs->intens[i] > obs_int_thresh){
+            x_vert.push_back({Obs->wn[i],Obs->intens[i]});
             x_vert_idex.push_back(i);
             num_x_vert++;
         }
     }
 
-    for ( int j = 0 ; j < calc_wn.size() ; j++ ){
-        if (calc_wn[j] > calc_range_lw && calc_wn[j] < calc_range_up && calc_intens[j] > calc_int_thresh){
-            y_vert.push_back({calc_wn[j],calc_intens[j]});
+    for ( int j = 0 ; j < Calc->num_trans; j++ ){
+        if (Calc->wn[j] > calc_range_lw && Calc->wn[j] < calc_range_up && Calc->intens[j] > calc_int_thresh){
+            y_vert.push_back({Calc->wn[j],Calc->intens[j]});
             y_vert_idex.push_back(j);
             num_y_vert++;
         }
@@ -303,7 +297,7 @@ void LinearAssigProb::clean(){
 
 }
 
-void LinearAssigProb::printMatching(Input *pInput, ObsLinelist *pObsLinelist, CalcLinelist *pCalcLinelist){
+void LinearAssigProb::printMatching(Input *pInput, ObsLinelist *Obs, CalcLinelist *Calc){
 
     for (int i = 0; i < num_x_vert; i++){
         cout << setw(5) << i+1 << "   " << setw(5) << xy[i]+1 << "    "
@@ -312,12 +306,12 @@ void LinearAssigProb::printMatching(Input *pInput, ObsLinelist *pObsLinelist, Ca
         if(pInput->GetPrintMatchInfo()=="none"){
             cout << endl;
         }else if(pInput->GetPrintMatchInfo()=="obs"){
-            cout << "   |  Obs line:   " << trim((pObsLinelist->spec_lines)[x_vert_idex[i]]) << endl;
+            cout << "   |  Obs line:   " << trim((Obs->spec_lines)[x_vert_idex[i]]) << endl;
         }else if(pInput->GetPrintMatchInfo()=="calc"){
-            cout << "   |  Calc line:   " << trim((pCalcLinelist->spec_lines)[y_vert_idex[xy[i]]]) << endl;
+            cout << "   |  Calc line:   " << trim((Calc->spec_lines)[y_vert_idex[xy[i]]]) << endl;
         }else if(pInput->GetPrintMatchInfo()=="all"){
-            cout << "   |  Obs line:   " << trim((pObsLinelist->spec_lines)[x_vert_idex[i]])
-                 << "   |  Calc line:   " << trim((pCalcLinelist->spec_lines)[y_vert_idex[xy[i]]]) << endl;
+            cout << "   |  Obs line:   " << trim((Obs->spec_lines)[x_vert_idex[i]])
+                 << "   |  Calc line:   " << trim((Calc->spec_lines)[y_vert_idex[xy[i]]]) << endl;
         }
     }
 
