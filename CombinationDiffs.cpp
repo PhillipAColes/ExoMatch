@@ -156,10 +156,11 @@ void CombinationDiffs::findPartners(ObsLinelist *Obs, CalcLinelist *Calc, Linear
                         Obs->wn[gscd_set_pairs[j][0]], Obs->intens[gscd_set_pairs[j][0]],
                         Calc->wn[gscd_set_pairs[j][1]] , Calc->intens[gscd_set_pairs[j][1]],
                         Obs->wn[gscd_set_pairs[j][0]] - Calc->wn[gscd_set_pairs[j][1]]);
+                if(pLAP->x_idex_map.count(gscd_set_pairs[j][0])==1){
+                    // remove assignments from future matching
+                    pLAP->removePair(pLAP->x_idex_map[gscd_set_pairs[j][0]],pLAP->y_idex_map[gscd_set_pairs[j][1]]);
+                }
             }
-            //remove assignments from future matching
-            pLAP->removePair(x2y_srtd[i][0],x2y_srtd[i][1]);
-
         }
 
         printf("\n");

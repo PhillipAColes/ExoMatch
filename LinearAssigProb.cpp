@@ -30,6 +30,7 @@ LinearAssigProb::LinearAssigProb(Input *pInput, ObsLinelist *Obs, CalcLinelist *
         if (Obs->wn[i] > obs_range_lw && Obs->wn[i] < obs_range_up && Obs->intens[i] > obs_int_thresh){
             x_vert.push_back({Obs->wn[i],Obs->intens[i]});
             x_vert_idex.push_back(i);
+            x_idex_map[i] = num_x_vert; // maps from index in global linelist to index in matching set
             num_x_vert++;
         }
     }
@@ -38,6 +39,7 @@ LinearAssigProb::LinearAssigProb(Input *pInput, ObsLinelist *Obs, CalcLinelist *
         if (Calc->wn[j] > calc_range_lw && Calc->wn[j] < calc_range_up && Calc->intens[j] > calc_int_thresh){
             y_vert.push_back({Calc->wn[j],Calc->intens[j]});
             y_vert_idex.push_back(j);
+            y_idex_map[j] = num_y_vert;
             num_y_vert++;
         }
     }
@@ -263,6 +265,8 @@ return;
 
 
 void LinearAssigProb::removePair(int x, int y){
+
+    if(count(yx.begin(), yx.end(),x)==0)return;
 
     vector<int>::iterator it_y = find(xy.begin(),xy.end(),y);
     vector<int>::iterator it_x = find(yx.begin(),yx.end(),x);

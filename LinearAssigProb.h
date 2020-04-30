@@ -14,6 +14,7 @@
 #ifndef LINEARASSIGPROB_H_
 #define LINEARASSIGPROB_H_
 
+#include <map>
 #include "Utils.h"
 #include "ObsLinelist.h"
 #include "CalcLinelist.h"
@@ -62,7 +63,8 @@ public:
     vector<vector<double>> GetYVert(){return y_vert;}
     vector<int> GetXIdex(){return x_vert_idex;}
     vector<int> GetYIdex(){return y_vert_idex;}
-
+    map<int,int>           x_idex_map;
+    map<int,int>           y_idex_map;
 
 };
 

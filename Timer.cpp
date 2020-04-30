@@ -22,8 +22,6 @@ void Timer::StartTimer(string timer_type){
 
     time_data[timer_type].start = chrono::steady_clock::now();
 
-    std::cout << "Timer of type " << time_data[timer_type].type.c_str() << " has been started " << std::endl;
-
 }
 
 
