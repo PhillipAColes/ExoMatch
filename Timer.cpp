@@ -65,6 +65,8 @@ void Timer::printTimerData(string timer_type){
 
     }
 
+    (this->*resetTimer)(timer_type);
+
 }
 
 
@@ -75,3 +77,4 @@ void Timer::initializeTimer(std::string timer_type){
     time_data[timer_type].finished = false;
 
 }
+
