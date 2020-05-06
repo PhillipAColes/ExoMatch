@@ -57,7 +57,7 @@ std::vector<std::vector<double> > transpose(const std::vector<std::vector<double
 
 std::vector<std::vector<int> > transpose_int(const std::vector<std::vector<int> > data);
 
-//void swap(int *a, int *b);
+void swap(int *a, int *b);
 
 void swap2d(vector<int> *a, vector<int> *b);
 

@@ -53,8 +53,8 @@ public:
     LinearAssigProb(Input *pInput, ObsLinelist *pObsLinelist, CalcLinelist *pCalcLinelist);
     ~LinearAssigProb();
     void Hungarian();
-    void removePair(int x, int y);
-    void clean();
+    void reset(vector<int> obs2calc, vector<int> calc2obs);
+    void readMatching(string file_name);
     void printMatching(Input *pInput, ObsLinelist *pObsLinelist, CalcLinelist *pCalcLinelist);
     int GetNumXVert(){return num_x_vert;}
     int GetNumYVert(){return num_y_vert;}
@@ -63,8 +63,6 @@ public:
     vector<vector<double>> GetYVert(){return y_vert;}
     vector<int> GetXIdex(){return x_vert_idex;}
     vector<int> GetYIdex(){return y_vert_idex;}
-    map<int,int>           x_idex_map;
-    map<int,int>           y_idex_map;
 
 };
 

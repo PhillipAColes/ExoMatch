@@ -47,22 +47,30 @@ int main(int argc, char* argv[]){
     CombinationDiffs comb_diffs(user_input_ptr,obs_linelist_ptr,calc_linelist_ptr);
 
 
-
     int N_iter = user_input.GetMaxIter();
     bool perform_gscds_tf = user_input.GetPerformGSCDsTF();
+    bool read_matches_tf = user_input.GetReadMatchesTF();
 
     // Here we start the big loop
-    for(int i=0; i<N_iter; i++){
+    for(int iter = 0; iter < N_iter; iter++){
 
-        LAP.Hungarian();
+        if( iter==0 && read_matches_tf){
+            LAP.readMatching(user_input.GetMatchesFileName());
+        }else{
+            LAP.Hungarian();
+        }
+
+
         LAP.printMatching(user_input_ptr,obs_linelist_ptr,calc_linelist_ptr);
+
 
         if(!perform_gscds_tf) break;
 
         comb_diffs.setUp(LAP_ptr,obs_linelist_ptr);
         comb_diffs.findPartners(obs_linelist_ptr, calc_linelist_ptr, LAP_ptr);
 
-        LAP.clean();
+        if(iter < N_iter-1)
+            LAP.reset(comb_diffs.getAssignmentsObs2Calc(),comb_diffs.getAssignmentsCalc2Obs());
 
     }
 

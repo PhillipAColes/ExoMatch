@@ -170,6 +170,13 @@ std::vector<std::vector<int> > transpose_int(const std::vector<std::vector<int> 
     return result;
 }
 
+// should have template for swap and swap2d
+void swap(int *a, int *b){
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
 void swap2d(vector<int> *a, vector<int> *b){
     vector<int> temp = *a; // value pointed to by a (i.e.*a) is assigned to variable temp
     *a = *b; // value pointed to by b (i.e. *b) is assigned to where a points to

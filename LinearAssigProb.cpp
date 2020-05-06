@@ -10,6 +10,7 @@
 #include "Timer.h"
 #include <math.h>
 #include <iomanip>
+#include <utility>
 using namespace std;
 #define INF 100000000
 
@@ -30,7 +31,6 @@ LinearAssigProb::LinearAssigProb(Input *pInput, ObsLinelist *Obs, CalcLinelist *
         if (Obs->wn[i] > obs_range_lw && Obs->wn[i] < obs_range_up && Obs->intens[i] > obs_int_thresh){
             x_vert.push_back({Obs->wn[i],Obs->intens[i]});
             x_vert_idex.push_back(i);
-            x_idex_map[i] = num_x_vert; // maps from index in global linelist to index in matching set
             num_x_vert++;
         }
     }
@@ -39,7 +39,6 @@ LinearAssigProb::LinearAssigProb(Input *pInput, ObsLinelist *Obs, CalcLinelist *
         if (Calc->wn[j] > calc_range_lw && Calc->wn[j] < calc_range_up && Calc->intens[j] > calc_int_thresh){
             y_vert.push_back({Calc->wn[j],Calc->intens[j]});
             y_vert_idex.push_back(j);
-            y_idex_map[j] = num_y_vert;
             num_y_vert++;
         }
     }
@@ -264,28 +263,39 @@ return;
 }//end of augment() function
 
 
-void LinearAssigProb::removePair(int x, int y){
+void LinearAssigProb::reset(vector<int> assignments_obs2calc, vector<int> assignments_calc2obs){
 
-    if(count(yx.begin(), yx.end(),x)==0)return;
+    printf("Resetting LAP...\n");
 
-    vector<int>::iterator it_y = find(xy.begin(),xy.end(),y);
-    vector<int>::iterator it_x = find(yx.begin(),yx.end(),x);
-    int y_idex = std::distance(xy.begin(),it_y);//it_y - xy.begin();
-    int x_idex = std::distance(yx.begin(),it_x);//it_x - yx.begin();
+    vector<vector<double>> tmp_x_vert = std::move(x_vert);
+    vector<vector<double>> tmp_y_vert = std::move(y_vert);
+    vector<int>            tmp_x_vert_idex = std::move(x_vert_idex);
+    vector<int>            tmp_y_vert_idex = std::move(y_vert_idex);
 
-    xy.erase(xy.begin()+y_idex);
-    yx.erase(yx.begin()+x_idex);
-    x_vert_idex.erase(x_vert_idex.begin()+y_idex);
-    y_vert_idex.erase(y_vert_idex.begin()+x_idex);
-    x_vert.erase(x_vert.begin()+y_idex);
-    y_vert.erase(y_vert.begin()+x_idex);
-    num_x_vert--;
-    num_y_vert--;
+    num_x_vert = 0;
+    num_y_vert = 0;
+    N_vert = 0;
+
+    for (int i = 0; i < tmp_x_vert.size() ; i++){
+        if(assignments_obs2calc[tmp_x_vert_idex[i]] == -1){
+            x_vert.push_back(tmp_x_vert[i]);
+            x_vert_idex.push_back(tmp_x_vert_idex[i]);
+            num_x_vert++;
+        }
+    }
+
+    for (int j = 0; j < tmp_y_vert.size() ; j++){
+        if(assignments_calc2obs[tmp_y_vert_idex[j]] == -1){
+            y_vert.push_back(tmp_y_vert[j]);
+            y_vert_idex.push_back(tmp_y_vert_idex[j]);
+            num_y_vert++;
+        }
+    }
+
+    cout << "Number of experimental lines in matching: " << num_x_vert << endl;
+    cout << "Number of theoretical lines in matching: " << num_y_vert << endl;
+
     N_vert = num_y_vert;
-
-}
-
-void LinearAssigProb::clean(){
 
     x2y.clear();
     xy.clear();
@@ -298,6 +308,72 @@ void LinearAssigProb::clean(){
     lx.clear();
     ly.clear();
     cost.clear();
+
+}
+
+void LinearAssigProb::readMatching(string matching_file_name){
+
+    printf("Matching to be read from file %s\n",matching_file_name.c_str());
+
+    std::ifstream infile(matching_file_name.c_str());
+
+    if(infile.fail()){
+        printf("Error: %s not found. Stopping.",matching_file_name);
+        exit(0);
+    }
+
+    string match_file_line;
+
+    int i_tmp = 0;
+
+    while(getline(infile,match_file_line)){
+        match_file_line = trim(match_file_line);
+        vector<string> split_line = split(match_file_line);
+        if( !isPositiveInt(split_line[0].c_str()) || !isPositiveInt(split_line[1].c_str())  ){
+            printf("Error: matched file does not contain positive ints");
+            exit(0);
+        }
+        yx.push_back(atoi(split_line[0].c_str())-1);
+        xy.push_back(atoi(split_line[1].c_str())-1);
+        x2y.push_back({yx[i_tmp],xy[i_tmp]});
+        i_tmp++;
+    }
+
+    if(i_tmp != num_x_vert){
+        printf("Error, the number of matched lines in the input file differs from the "
+                "number of observed lines within the wavenumber and intensity thresholds."
+                " Matches contained in the file %s should correspond to the observed lines"
+                " within the thresholds defined by 'obsrange' and 'obsIthresh'",matching_file_name.c_str());
+        exit(0);
+    }
+
+    bool swapped;
+    for (int i = 0; i < num_x_vert-1; i++){
+        swapped = false;
+        for (int j = 0; j < num_x_vert-i-1; j++) {
+            if (yx[j] > yx[j+1]) {
+                swap(&yx[j],&yx[j+1]);
+                swap(&xy[j],&xy[j+1]);
+                swap2d(&x2y[j],&x2y[j+1]);
+                swapped = true;
+            }
+        }
+        if (swapped == false) break;
+     }
+
+//    // Here we fill in xy and yx with the missing dummy lines
+//    i_tmp = 0;
+//    while(i_tmp < num_y_vert){
+//        if(std::count(xy.begin(),xy.end(),i_tmp) == 0){
+//            xy.push_back(i_tmp);
+////            yx.insert(yx.begin()+i_tmp,xy.size()-1);
+//        }
+//        yx[xy[i_tmp]] = i_tmp;
+//        x2y[i_tmp] = {i_tmp,xy[i_tmp]};
+//        i_tmp++;
+//
+//    }
+
 
 }
 

@@ -41,6 +41,8 @@ public:
     ~CombinationDiffs();
     void setUp(LinearAssigProb *pLAP, ObsLinelist *Obs);
     void findPartners(ObsLinelist *Obs, CalcLinelist *Calc, LinearAssigProb *pLAP);
+    vector<int> getAssignmentsObs2Calc(){return assignments_obs2calc;};
+    vector<int> getAssignmentsCalc2Obs(){return assignments_calc2obs;};
 };
 
 

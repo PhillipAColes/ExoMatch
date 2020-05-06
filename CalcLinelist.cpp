@@ -15,7 +15,6 @@
 #include "Timer.h"
 #include "CalcLinelist.h"
 using namespace std;
-std::clock_t timestart,timeend,ticstaken,totaltimestart,totaltimeend;
 
 //Constructor to initialise data members in class Input
 CalcLinelist::CalcLinelist(Input *pInput){
@@ -38,7 +37,7 @@ void CalcLinelist::initialize(){
 
     while(fgets(buffer, 1024, ll_file)){
         num_trans++;
-        string s_tmp = (1,buffer);
+        string s_tmp = (buffer);
         ll_size = ll_size + sizeof (trim(s_tmp));
     }
     printf("%zd bytes is required to hold linelist %s\n",ll_size,ll_file_name.c_str());

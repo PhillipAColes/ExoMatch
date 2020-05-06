@@ -40,7 +40,10 @@ void Input::SetInFileName(std::string buf){
 // Check to see if user input is valid.
 void Input::checkInput(vector<string> vs){
     string param_type = trim(vs[0]);
-    if(compStrings(3, param_type.c_str(),"obsrange","calcrange")){
+    if(strcmp(param_type.c_str(),"GSCDs")==0){
+        return;
+    }
+    else if(compStrings(3, param_type.c_str(),"obsrange","calcrange")){
         if(vs.size()<3){retError(param_type);}
         if(!isPositiveFloat(vs[1].c_str()) || !isPositiveFloat(vs[2].c_str())){
             retError(param_type);
