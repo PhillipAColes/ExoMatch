@@ -20,7 +20,7 @@ The most recent version of this code uses **C++14**, compiled with **gcc version
 
 1. Download or clone the repo to your local machine
 2. `cd` to the directory containing the local copy of the repo
-2. run `make` or use your own build chain
+2. run `make` using the makefile provided or use your own build chain
 
 ### Run
 
