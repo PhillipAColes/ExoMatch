@@ -14,13 +14,13 @@ For the most comprehensive guide to the code please see the associated [document
 2. A C++ compiler e.g. gcc
 3. Make (optional)
 
-The most recent version of this code uses #C++14#, compiled with #gcc version 6.4.0# on ##Windows 10##. It has not been tested on Linux or Mac.
+The most recent version of this code uses **C++14**, compiled with **gcc version 6.4.0** on **Windows 10**. It has not been tested on Linux or Mac.
 
 ### Install
 
 1. Download or clone the repo to your local machine
 2. `cd` to the directory containing the local copy of the repo
-2. run `make`
+2. run `make` or use your own build chain
 
 ### Run
 
@@ -29,7 +29,8 @@ In the same directory that contains the ExoMatch executable, input file and line
 
 ## Input / Output
 
-ExoMatch requires one input file and two line list files. The complete list of keywords that can be used in the input file is given [here](https://github.com/PhillipAColes/ExoMatch/blob/master/docs/keywords.txt).
+ExoMatch requires one input file and two line list files. The complete list of keywords that can be used in the input file is given [here](https://github.com/PhillipAColes/ExoMatch/blob/master/docs/keywords.txt). For example inputs that use [ExoMol](http://exomol.com/) and [HITRAN](https://hitran.org/) data  see [here](https://github.com/PhillipAColes/ExoMatch/tree/master/sampleinput)
+
 Please see the [documentation](https://github.com/PhillipAColes/ExoMatch/blob/master/docs/ExoMatch-13022020.pdf) for how to use the keywords, and for how to format the line list files.
 
 ## Running tests
