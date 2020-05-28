@@ -10,7 +10,7 @@ For the most comprehensive guide to the code please see the associated [document
 
 ### Prerequisites
 
-1. C++14
+1. C++14 or more recent
 2. A C++ compiler e.g. gcc
 3. Make (optional)
 
