@@ -10,7 +10,7 @@ For the most comprehensive guide to the code please see the associated [document
 
 ### Prerequisites
 
-1. C++14 or more recent
+1. C++14 (or newer)
 2. A C++ compiler e.g. gcc
 3. Make (optional)
 
@@ -20,7 +20,7 @@ The most recent version of this code uses **C++14**, compiled with **gcc version
 
 1. Download or clone the repo to your local machine
 2. `cd` to the directory containing the local copy of the repo
-2. run `make` using the makefile provided or use your own build chain
+2. run `make` with the makefile provided. Alternatively you can use your own build chain
 
 ### Run
 
