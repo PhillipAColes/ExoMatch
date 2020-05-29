@@ -190,17 +190,21 @@ void Input::printInput(){
 
     printf("matchinfo:    %s\n",print_match_info.c_str());
     if(read_matches_tf){
-    printf("readmatches:    %s\n",matches_file_name.c_str());
+        printf("readmatches:    %s\n",matches_file_name.c_str());
     }else{
-    printf("costcoeff:    %6.3f\n",cost_coeff);
+        printf("costcoeff:    %6.3f\n",cost_coeff);
     }
 
     if(perform_gscd_tf){
-    printf("maxiter:    %i\n",max_iter);
-    printf("numGSCDs:    %i\n",gscd_set_size);
-    printf("Nquanta:    %i\n",num_quanta);
-    printf("CDthresh:    \n");
-    printf("Iratio:    %6.3f\n",intens_ratio);
+        printf("maxiter:    %i\n",max_iter);
+        printf("numGSCDs:    %i\n",gscd_set_size);
+        printf("Nquanta:    %i\n",num_quanta);
+        if(cd_thresh==0){
+            printf("CDthresh:    read\n");
+        }else{
+            printf("CDthresh:    %8.5f\n",cd_thresh);
+        }
+        printf("Iratio:    %6.3f\n",intens_ratio);
     }
 
 }
