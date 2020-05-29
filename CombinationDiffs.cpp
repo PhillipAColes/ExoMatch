@@ -76,6 +76,7 @@ void CombinationDiffs::findPartners(ObsLinelist *Obs, CalcLinelist *Calc, Linear
 
 
     Timer::getInstance().StartTimer("perform combination differences");
+    printf("Performing ground state combination differences...");
 
     for( int i=0; i<num_obs_matches; i++){
 

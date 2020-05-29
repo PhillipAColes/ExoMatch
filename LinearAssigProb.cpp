@@ -27,6 +27,8 @@ LinearAssigProb::LinearAssigProb(Input *pInput, ObsLinelist *Obs, CalcLinelist *
     double obs_int_thresh = pInput->GetObsIntThresh();
     double calc_int_thresh = pInput->GetCalcIntThresh();
 
+    printf("Initializing matching sets...\n");
+
     for ( int i = 0 ; i < Obs->num_trans; i++ ){
         if (Obs->wn[i] > obs_range_lw && Obs->wn[i] < obs_range_up && Obs->intens[i] > obs_int_thresh){
             x_vert.push_back({Obs->wn[i],Obs->intens[i]});
@@ -42,8 +44,10 @@ LinearAssigProb::LinearAssigProb(Input *pInput, ObsLinelist *Obs, CalcLinelist *
             num_y_vert++;
         }
     }
-    cout << "number of experimental lines in matching: " << num_x_vert << endl;
-    cout << "number of theoretical lines in matching: " << num_y_vert << endl;
+
+    printf("number of experimental lines in matching: %i\n",num_x_vert);
+    printf("number of theoretical lines in matching: %i\n",num_y_vert);
+
 
     N_vert = num_y_vert;
 
@@ -58,9 +62,8 @@ void LinearAssigProb::generateCostMatrix(){
 
     cost.resize(num_y_vert,vector<double>(num_y_vert));
 
-    cout << "Coefficient of intensity contribution to cost matrix = " << cost_coeff << '\n' << std::endl;
-
-    cout << "Generating cost matrix...\n" << endl;
+    printf("Coefficient of intensity contribution to cost matrix = %6.3f\n",cost_coeff);
+    printf("Generating cost matrix...\n");
 
     Timer::getInstance().StartTimer("generate cost matrix");
 
@@ -111,6 +114,8 @@ void LinearAssigProb::Hungarian(){
 
     Timer::getInstance().StartTimer("match line lists");
 
+    printf("Performing optimal matching...\n");
+
     initLabels();
 
     xy.assign(N_vert,-1);
@@ -122,8 +127,11 @@ void LinearAssigProb::Hungarian(){
         augment();
     }
 
+    printf("...done\n");
+
     Timer::getInstance().EndTimer("match line lists");
     Timer::getInstance().printTimerData("match line lists");
+
 
     for (int x = 0; x < num_x_vert; x++)
         x2y[x] = {x,xy[x]};
@@ -394,5 +402,6 @@ void LinearAssigProb::printMatching(Input *pInput, ObsLinelist *Obs, CalcLinelis
                  << "   |  Calc line:   " << trim((Calc->spec_lines)[y_vert_idex[xy[i]]]) << endl;
         }
     }
+    printf("\n\n");
 
 }

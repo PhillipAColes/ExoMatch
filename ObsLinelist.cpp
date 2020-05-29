@@ -34,11 +34,11 @@ void ObsLinelist::initialize(){
         num_trans++;
     }
 
-    cout << "Number of lines to be read from " << ll_file_name << " = " << num_trans << endl;
+    cout << "\nNumber of lines to be read from " << ll_file_name << " = " << num_trans << endl;
 
     rewind(ll_file);
 
-    cout << "Begin reading in " << ll_file_name.c_str() << " linelist\n" << endl;
+    printf("Begin reading experimental line list %s\n...",ll_file_name.c_str());
 
     Timer::getInstance().StartTimer("read obs linelist");
 
@@ -83,7 +83,7 @@ void ObsLinelist::initialize(){
         i_tmp++;
     }
 
-    printf("... done\n\n");
+    printf("... done\n");
 
     Timer::getInstance().EndTimer("read obs linelist");
     Timer::getInstance().printTimerData("read obs linelist");

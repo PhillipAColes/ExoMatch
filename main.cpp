@@ -21,7 +21,6 @@ using namespace std;
 int main(int argc, char* argv[]){
 
     std::string cmd_input = argv[1];
-    std::cout << "cmd input is " << cmd_input << std::endl;
 
     Timer::getInstance().StartTimer("execute ExoMatch");
 

@@ -6,10 +6,9 @@ obsrange 2400 3300
 calcrange 2400 3300
 matchinfo all
 costcoeff 0.5
-GSCD
+GSCDs
 CDthresh 0.001
 Iratio 0.8
 numGSCDs 2
-verbose 1
 Nquanta 15
 maxiter 2

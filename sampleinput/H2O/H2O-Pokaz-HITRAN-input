@@ -7,9 +7,8 @@ obsIthresh 1.0e-28
 obsrange 0 10000
 calcrange 0 10001
 
-GSCD
+GSCDs
 CDthresh 0.0015
 Iratio 0.8
 numGSCDs 2
-verbose 1
 Nquanta 7

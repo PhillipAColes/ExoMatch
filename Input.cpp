@@ -24,7 +24,6 @@ Input::Input(): obs_range_lw(0.0),
 				num_quanta(0),
 				print_match_info("all")
 			    {
-				puts("Initialising default values");
 };
 
 
@@ -33,7 +32,7 @@ Input::~Input(){}//destructor
 
 void Input::SetInFileName(std::string buf){
     in_file_name = buf;
-    std::cout << "User input file is " << in_file_name << std::endl;
+//    std::cout << "User input file is " << in_file_name << std::endl;
 }
 
 
@@ -82,7 +81,6 @@ void Input::checkInput(vector<string> vs){
 
 void Input::ReadInput(){
 
-    cout << "Will now read file " << in_file_name << std::endl;
 
     std::ifstream infile(in_file_name.c_str());
 
@@ -181,22 +179,29 @@ void Input::ReadInput(){
 
 void Input::printInput(){
 
-    cout << "obs_range_lw " << obs_range_lw << std::endl;
-    cout << "obs_range_up " << obs_range_up << std::endl;
-    cout << "obs_int_thresh " << obs_int_thresh << std::endl;
-    cout << "calc_range_lw " << calc_range_lw << std::endl;
-    cout << "calc_range_up " << calc_range_up << std::endl;
-    cout << "calc_int_thresh " << calc_int_thresh << std::endl;
-    cout << "obs_file is " << obs_ll_file_name << std::endl;
-    cout << "calc_file is " << calc_ll_file_name << std::endl;
-    cout << "cost_coeff is " << cost_coeff << std::endl;
-    cout << "cd_thresh is " << cd_thresh << std::endl;
-    cout << "intens_ratio " << intens_ratio << std::endl;
-    cout << "gscd_set_size " << gscd_set_size << std::endl;
-    cout << "num_quanta " << num_quanta << std::endl;
-    cout << "max_iter " << max_iter << std::endl;
-    cout << "matches_file_name " << matches_file_name << std::endl;
-    cout << "print_match_info " << print_match_info << std::endl;
+    printf("obsfile:    %s\n",obs_ll_file_name.c_str());
+    printf("obsrange:    %9.3f  %9.3f\n",obs_range_lw,obs_range_up);
+    printf("obsIthresh:    %9.3e\n",obs_int_thresh);
+    printf("CDthresh:      \n");
+
+    printf("calcfile:    %s\n",calc_ll_file_name.c_str());
+    printf("calcrange:    %9.3f  %9.3f\n",calc_range_lw,calc_range_up);
+    printf("calcIthresh:    %9.3e\n",calc_int_thresh);
+
+    printf("matchinfo:    %s\n",print_match_info.c_str());
+    if(read_matches_tf){
+    printf("readmatches:    %s\n",matches_file_name.c_str());
+    }else{
+    printf("costcoeff:    %6.3f\n",cost_coeff);
+    }
+
+    if(perform_gscd_tf){
+    printf("maxiter:    %i\n",max_iter);
+    printf("numGSCDs:    %i\n",gscd_set_size);
+    printf("Nquanta:    %i\n",num_quanta);
+    printf("CDthresh:    \n");
+    printf("Iratio:    %6.3f\n",intens_ratio);
+    }
 
 }
 

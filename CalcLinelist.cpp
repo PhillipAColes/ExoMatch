@@ -46,7 +46,7 @@ void CalcLinelist::initialize(){
 
     rewind(ll_file);
 
-    cout << "Begin reading in " << ll_file_name.c_str() << " linelist\n" << endl;
+    printf("Begin reading theoretical line list %s\n...",ll_file_name.c_str());
 
     Timer::getInstance().StartTimer("read calc linelist");
 
@@ -86,7 +86,7 @@ void CalcLinelist::initialize(){
         i_tmp++;
     }
 
-    printf("... done\n\n");
+    printf("... done\n");
 
     Timer::getInstance().EndTimer("read calc linelist");
     Timer::getInstance().printTimerData("read calc linelist");

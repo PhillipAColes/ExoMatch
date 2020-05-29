@@ -4,10 +4,9 @@ calcIthresh 0.9e-23
 obsIthresh 1.0e-23
 obsrange 4250 4600
 calcrange 4249 4601
-GSCD
+GSCDs
 CDthresh 0.005
 Iratio 0.7
 numGSCDs 1
-verbose 1
 Nquanta 3
 maxiter 2
