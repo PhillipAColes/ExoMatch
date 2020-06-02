@@ -4,13 +4,12 @@ org.eclipse.cdt.core.prefs
 .project
 ExoMatch.exe
 Input.d
-Input.o
+*.o
 inputfile
 LinelistReader.cpp
 LinelistReader.h
 main.d
 main.o
-makefile
 objects.mk
 sources.mk
 subdir.mk
@@ -19,3 +18,4 @@ Utils.o
 inputfile
 ExoMatch.exe
 Debug
+.gitignore
