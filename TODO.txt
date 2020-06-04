@@ -1,8 +1,12 @@
  - swap and swap2d combined into template function
+ - transpose functions should also be combined into template
  - tidy headers
  - format output i.e. nicer looking print statements
  - writing sets-to-be-matched to files, i.e. to help user effectively use readmatches
  - calculation of rovib-energies
- - push makefile
+ - push makefile -- done
  - finish paper
  - GitHub userguide / readme (see github website for how to write documentation on github)
+ - linting
+ - make sure GSCDs is consistent in paper, sampleinputs, code -- done
+ - more unit tests

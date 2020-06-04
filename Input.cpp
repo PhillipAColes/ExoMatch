@@ -7,7 +7,6 @@
 #include "Input.h"
 #include "Utils.h"
 
-//Constructor to initialise data members in class Input
 Input::Input(): obs_range_lw(0.0),
                 obs_range_up(50000.0),
 				calc_range_lw(0.0),
@@ -27,7 +26,7 @@ Input::Input(): obs_range_lw(0.0),
 };
 
 
-Input::~Input(){}//destructor
+Input::~Input(){}
 
 
 void Input::SetInFileName(std::string buf){

@@ -362,7 +362,7 @@ void LinearAssigProb::readMatching(string matching_file_name){
             if (yx[j] > yx[j+1]) {
                 swap(&yx[j],&yx[j+1]);
                 swap(&xy[j],&xy[j+1]);
-                swap2d(&x2y[j],&x2y[j+1]);
+                swap(&x2y[j],&x2y[j+1]);
                 swapped = true;
             }
         }

@@ -60,8 +60,8 @@ void CombinationDiffs::setUp(LinearAssigProb *pLAP, ObsLinelist *Obs){
       swapped = false;
       for (int j = 0; j < num_obs_matches-i-1; j++) {
          if (Obs->intens[xy_idex_srtd[j][0]] < Obs->intens[xy_idex_srtd[j+1][0]]) {
-             swap2d(&xy_idex_srtd[j],&xy_idex_srtd[j+1]);
-             swap2d(&x2y_srtd[j],&x2y_srtd[j+1]);
+             swap(&xy_idex_srtd[j],&xy_idex_srtd[j+1]);
+             swap(&x2y_srtd[j],&x2y_srtd[j+1]);
             swapped = true;
          }
       }

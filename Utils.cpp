@@ -146,50 +146,13 @@ vector<string> split_sub( string line, char separator , int nfields){
 }
 
 
-bool sortinrev(const pair<double,int> &a, const pair<double,int> &b){
-return (a.first > b.first);
-}
+void printCPPVersion(){
 
-
-std::vector<std::vector<double> > transpose(const std::vector<std::vector<double> > data) {
-    std::vector<std::vector<double> > result(data[0].size(), std::vector<double>(data.size()));
-    for (std::vector<double>::size_type i = 0; i < data[0].size(); i++)
-        for (std::vector<double>::size_type j = 0; j < data.size(); j++) {
-            result[i][j] = data[j][i];
-        }
-    return result;
-}
-
-
-std::vector<std::vector<int> > transpose_int(const std::vector<std::vector<int> > data) {
-    std::vector<std::vector<int> > result(data[0].size(), std::vector<int>(data.size()));
-    for (std::vector<int>::size_type i = 0; i < data[0].size(); i++)
-        for (std::vector<int>::size_type j = 0; j < data.size(); j++) {
-            result[i][j] = data[j][i];
-        }
-    return result;
-}
-
-// should have template for swap and swap2d
-void swap(int *a, int *b){
-    int temp = *a;
-    *a = *b;
-    *b = temp;
-}
-
-void swap2d(vector<int> *a, vector<int> *b){
-    vector<int> temp = *a; // value pointed to by a (i.e.*a) is assigned to variable temp
-    *a = *b; // value pointed to by b (i.e. *b) is assigned to where a points to
-    *b = temp;  // value 'temp' is copied into where b points to (*b). Here the address of b doesn't change, the value held at that address does
-}
-
-bool IsCPPVersionPost2011(){
-
-    if (__cplusplus == 201703L) return true; //std::cout << "C++17\n";
-    else if (__cplusplus == 201402L) return true; //std::cout << "C++14\n";
-    else if (__cplusplus == 201103L) return true; //std::cout << "C++11\n";
-    else if (__cplusplus == 199711L) return false; //std::cout << "C++98\n";
-    else return false; //std::cout << "pre-standard C++\n";
+    if (__cplusplus == 201703L) std::cout << "C++17\n";
+    else if (__cplusplus == 201402L) std::cout << "C++14\n";
+    else if (__cplusplus == 201103L) std::cout << "C++11\n";
+    else if (__cplusplus == 199711L) std::cout << "C++98\n";
+    else std::cout << "pre-standard C++\n";
 
 }
 

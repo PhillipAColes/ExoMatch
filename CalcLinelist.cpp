@@ -16,7 +16,6 @@
 #include "CalcLinelist.h"
 using namespace std;
 
-//Constructor to initialise data members in class Input
 CalcLinelist::CalcLinelist(Input *pInput){
 
     ll_file_name = pInput->GetCalcLLFileName();

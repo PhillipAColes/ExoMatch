@@ -24,8 +24,8 @@ class CalcLinelist : public BaseLinelist {
     friend class CombinationDiffs;
 
     public:
-    CalcLinelist(Input *pInput);//constructor
-    ~CalcLinelist();//destructor
+    CalcLinelist(Input *pInput);
+    ~CalcLinelist();
     void initialize();
     vector<vector<string>> GetUpperQuanta(){return upper_quanta;}
     vector<double>         GetUpperEnergy(){return upper_energy;}

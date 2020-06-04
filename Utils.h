@@ -51,16 +51,13 @@ std::vector<T> slice_vec(std::vector<T> &v, int m, int n)
     return vec;
 }
 
-bool sortinrev(const pair<double,int> &a, const pair<double,int> &b);
+template <typename T>
+void swap(T *a, T *b){
+    T temp = *a; // value pointed to by a (i.e.*a) is assigned to variable temp
+    *a = *b; // value pointed to by b (i.e. *b) is assigned to where a points to
+    *b = temp; // value 'temp' is copied into where b points to (*b). Here the address of b doesn't change, the value held at that address does
+}
 
-std::vector<std::vector<double> > transpose(const std::vector<std::vector<double> > data);
-
-std::vector<std::vector<int> > transpose_int(const std::vector<std::vector<int> > data);
-
-void swap(int *a, int *b);
-
-void swap2d(vector<int> *a, vector<int> *b);
-
-bool IsCPPVersionPost2011();
+void printCPPVersion();
 
 #endif /* UTILS_H_ */

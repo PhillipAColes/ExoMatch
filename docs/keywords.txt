@@ -33,7 +33,7 @@ in the matching. Should be slightly larger than obsrange.
 Default value 0 50000
 
 
---- GSCD ---
+--- GSCDs ---
 If keyword is found in input file then GSCDs will be performed. If not found then no GSCDs will be performed and the program will stop after one iteration
 of the optimal matching.
 
@@ -56,12 +56,12 @@ Number of ground state combination difference (GSCD) partners (in addition to th
 Default value 1
 
 
---- conflicts (string) ---
+--- conflicts (string) --- (deprecated)
 Originally meant to define how user wanted to deal with conflicts between matching and GSCD assignments.
 Not used. Currently GSCD partners always take precedence over matches that conflict with them.
 
 
---- verbose (int) ---
+--- verbose (int) --- (not implemented)
 Indicates the level of verbosity. 
 Takes integer value between 1 and ???
 
@@ -76,7 +76,7 @@ Number of cycles of the optimal assignment + GSCDs procedures the code will perf
 Default value 1
 
 
---- readmatches (string) --- introduced version 4-11
+--- readmatches (string) ---
 If keyword is found in the input file then the initial matching will be read from a file. The name of the file is to follow the keyword readmatches.
 
 
