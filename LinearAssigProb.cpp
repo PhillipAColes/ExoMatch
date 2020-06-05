@@ -27,7 +27,7 @@ LinearAssigProb::LinearAssigProb(Input *pInput, ObsLinelist *Obs, CalcLinelist *
     double obs_int_thresh = pInput->GetObsIntThresh();
     double calc_int_thresh = pInput->GetCalcIntThresh();
 
-    printf("Initializing matching sets...\n");
+    printf("\nInitializing matching sets...\n");
 
     for ( int i = 0 ; i < Obs->num_trans; i++ ){
         if (Obs->wn[i] > obs_range_lw && Obs->wn[i] < obs_range_up && Obs->intens[i] > obs_int_thresh){
@@ -62,8 +62,10 @@ void LinearAssigProb::generateCostMatrix(){
 
     cost.resize(num_y_vert,vector<double>(num_y_vert));
 
-    printf("Coefficient of intensity contribution to cost matrix = %6.3f\n",cost_coeff);
-    printf("Generating cost matrix...\n");
+    printf("\nCoefficient of intensity contribution to cost matrix = %6.3f\n",cost_coeff);
+
+    printf("\nGenerating cost matrix...");
+
 
     Timer::getInstance().StartTimer("generate cost matrix");
 
@@ -91,7 +93,7 @@ void LinearAssigProb::generateCostMatrix(){
         }
     }
 
-    cout << "... done\n" << endl;
+    printf(" done!\n");
 
     Timer::getInstance().EndTimer("generate cost matrix");
     Timer::getInstance().printTimerData("generate cost matrix");
@@ -114,7 +116,7 @@ void LinearAssigProb::Hungarian(){
 
     Timer::getInstance().StartTimer("match line lists");
 
-    printf("Performing optimal matching...\n");
+    printf("\nPerforming optimal matching...");
 
     initLabels();
 
@@ -127,7 +129,7 @@ void LinearAssigProb::Hungarian(){
         augment();
     }
 
-    printf("...done\n");
+    printf(" done!\n");
 
     Timer::getInstance().EndTimer("match line lists");
     Timer::getInstance().printTimerData("match line lists");
@@ -273,7 +275,7 @@ return;
 
 void LinearAssigProb::reset(vector<int> assignments_obs2calc, vector<int> assignments_calc2obs){
 
-    printf("Resetting LAP...\n");
+    printf("\nResetting LAP...\n");
 
     vector<vector<double>> tmp_x_vert = std::move(x_vert);
     vector<vector<double>> tmp_y_vert = std::move(y_vert);
@@ -386,6 +388,8 @@ void LinearAssigProb::readMatching(string matching_file_name){
 }
 
 void LinearAssigProb::printMatching(Input *pInput, ObsLinelist *Obs, CalcLinelist *Calc){
+
+    printf("\nPrinting optimal matching:\n");
 
     for (int i = 0; i < num_x_vert; i++){
         cout << setw(5) << i+1 << "   " << setw(5) << xy[i]+1 << "    "

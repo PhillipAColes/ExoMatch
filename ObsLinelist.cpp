@@ -26,7 +26,11 @@ void ObsLinelist::initialize(){
 
     num_trans = 0;
 
+    printf("\nProcessing %s...\n",ll_file_name.c_str());
+
     FILE * ll_file = fopen(ll_file_name.c_str(),"r");
+
+    if (ll_file == NULL) perror ("Error opening file");
 
     char buffer[1024];
 
@@ -34,11 +38,11 @@ void ObsLinelist::initialize(){
         num_trans++;
     }
 
-    cout << "\nNumber of lines to be read from " << ll_file_name << " = " << num_trans << endl;
+    cout << "Number of lines to be read: " << num_trans << endl;
 
     rewind(ll_file);
 
-    printf("Begin reading experimental line list %s\n...",ll_file_name.c_str());
+    printf("Begin reading in experimental line list %s...",ll_file_name.c_str());
 
     Timer::getInstance().StartTimer("read obs linelist");
 
@@ -83,7 +87,7 @@ void ObsLinelist::initialize(){
         i_tmp++;
     }
 
-    printf("... done\n");
+    printf(" done!\n");
 
     Timer::getInstance().EndTimer("read obs linelist");
     Timer::getInstance().printTimerData("read obs linelist");

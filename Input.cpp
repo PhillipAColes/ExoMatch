@@ -85,7 +85,7 @@ void Input::ReadInput(){
 
     if(infile.fail()){
         cout << "Error: " << in_file_name << " not found. Stopping." << endl;
-	    return;
+	    exit(0);
     }
 
     string in_file_line;
@@ -181,7 +181,6 @@ void Input::printInput(){
     printf("obsfile:    %s\n",obs_ll_file_name.c_str());
     printf("obsrange:    %9.3f  %9.3f\n",obs_range_lw,obs_range_up);
     printf("obsIthresh:    %9.3e\n",obs_int_thresh);
-    printf("CDthresh:      \n");
 
     printf("calcfile:    %s\n",calc_ll_file_name.c_str());
     printf("calcrange:    %9.3f  %9.3f\n",calc_range_lw,calc_range_up);

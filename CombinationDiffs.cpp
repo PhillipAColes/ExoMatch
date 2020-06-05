@@ -74,9 +74,9 @@ void CombinationDiffs::setUp(LinearAssigProb *pLAP, ObsLinelist *Obs){
 
 void CombinationDiffs::findPartners(ObsLinelist *Obs, CalcLinelist *Calc, LinearAssigProb *pLAP){
 
+    printf("Performing ground state combination differences:\n");
 
     Timer::getInstance().StartTimer("perform combination differences");
-    printf("Performing ground state combination differences...");
 
     for( int i=0; i<num_obs_matches; i++){
 

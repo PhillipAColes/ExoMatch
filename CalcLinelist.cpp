@@ -29,7 +29,11 @@ void CalcLinelist::initialize(){
 
     num_trans = 0;
 
+    printf("\nProcessing %s...\n",ll_file_name.c_str());
+
     FILE * ll_file = fopen(ll_file_name.c_str(),"r");
+
+    if (ll_file == NULL) perror ("Error opening file");
 
     char buffer[1024];
     size_t ll_size = 0;
@@ -41,11 +45,11 @@ void CalcLinelist::initialize(){
     }
     printf("%zd bytes is required to hold linelist %s\n",ll_size,ll_file_name.c_str());
 
-    cout << "Number of lines to be read from " << ll_file_name << " = " << num_trans << endl;
+    cout << "Number of lines to be read = " << num_trans << endl;
 
     rewind(ll_file);
 
-    printf("Begin reading theoretical line list %s\n...",ll_file_name.c_str());
+    printf("Begin reading theoretical line list %s...",ll_file_name.c_str());
 
     Timer::getInstance().StartTimer("read calc linelist");
 
@@ -85,7 +89,7 @@ void CalcLinelist::initialize(){
         i_tmp++;
     }
 
-    printf("... done\n");
+    printf(" done!\n");
 
     Timer::getInstance().EndTimer("read calc linelist");
     Timer::getInstance().printTimerData("read calc linelist");
