@@ -24,12 +24,23 @@ The most recent version of this code uses **C++14**, compiled with **gcc version
 
 ### Run
 
-In the same directory that contains the ExoMatch executable, input file and line list files, enter the following command into the terminal:
-`\.ExoMatch.exe  <inputfile>`
+In the same directory that contains the ExoMatch executable, input file and line list files, enter the following command into the (Windows) terminal:
+`.\ExoMatch.exe  <inputfile>`
+
+For example, to run ExoMatch on a sample methane (CH4) spectrum simply copy ExoMatch.exe into the folder `.\sampleinput\CH4\` and enter:
+`.\ExoMatch.exe  CH4input`
 
 ## Input / Output
 
-ExoMatch requires one input file and two line list files. The complete list of keywords that can be used in the input file is given [here](https://github.com/PhillipAColes/ExoMatch/blob/master/docs/keywords.txt). For example inputs that use [ExoMol](http://exomol.com/) and [HITRAN](https://hitran.org/) data  see [here](https://github.com/PhillipAColes/ExoMatch/tree/master/sampleinput)
+ExoMatch requires one input file and two line list files. The input file specifies: 
+1. The two line list files to be analysed.
+2. If optimal matching is to be performed and...
+   - if so, the spectral regions containing the lines to be matched.
+   - if not, the file from which a matching will be read from.
+3. If ground state combination differences are to be performed, and if so, the criteria for accepting ground state combination difference partners.
+4. The number of iterations of matching + ground state combination differences to be performed.
+
+The complete list of keywords that can be used in the input file is given [here](https://github.com/PhillipAColes/ExoMatch/blob/master/docs/keywords.txt). For example inputs that use [ExoMol](http://exomol.com/) and [HITRAN](https://hitran.org/) data  see [here](https://github.com/PhillipAColes/ExoMatch/tree/master/sampleinput)
 
 Please see the [documentation](https://github.com/PhillipAColes/ExoMatch/blob/master/docs/ExoMatch-13022020.pdf) for how to use the keywords, and for how to format the line list files.
 
