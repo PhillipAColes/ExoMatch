@@ -43,7 +43,7 @@ private:
     //~Timer();
     std::map<std::string,TimeInfo> time_data;
     void initializeTimer(string timer_type);
-    void (Timer::*resetTimer)(string timer_type) = &initializeTimer;
+    void (Timer::*resetTimer)(string timer_type) = &Timer::initializeTimer;
 
 };
 

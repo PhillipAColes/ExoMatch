@@ -10,11 +10,9 @@ For the most comprehensive guide to the code please see the associated [document
 
 ### Prerequisites
 
-1. C++14 (or newer)
+1. C++11 (or newer)
 2. A C++ compiler e.g. gcc
 3. Make (optional)
-
-The most recent version of this code uses **C++14**, compiled with **gcc version 6.4.0** on **Windows 10**. It has not been tested on Linux or Mac.
 
 ### Install
 
@@ -34,7 +32,7 @@ For example, to run ExoMatch on a sample methane (CH4) spectrum simply copy ExoM
 
 ExoMatch requires one input file and two line list files. The input file specifies: 
 1. The two line list files to be analysed.
-2. If optimal matching is to be performed and...
+2. If optimal matching is to be performed and:
    - if so, the spectral regions containing the lines to be matched.
    - if not, the file from which a matching will be read from.
 3. If ground state combination differences are to be performed, and if so, the criteria for accepting ground state combination difference partners.

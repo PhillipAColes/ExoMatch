@@ -328,7 +328,7 @@ void LinearAssigProb::readMatching(string matching_file_name){
     std::ifstream infile(matching_file_name.c_str());
 
     if(infile.fail()){
-        printf("Error: %s not found. Stopping.",matching_file_name);
+        printf("Error: %s not found. Stopping.",matching_file_name.c_str());
         exit(0);
     }
 
