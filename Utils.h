@@ -8,17 +8,14 @@
 #ifndef UTILS_H_
 #define UTILS_H_
 
-#include <cstdio>
-#include <stdio.h>
-#include <string>
-#include <ctime>
-#include <fstream>
+#include <cstring>
+#include <sstream>
+#include <cstdarg>
 #include <iostream>
+#include <string>
 #include <vector>
 #include <algorithm>
-
-
-using namespace std;
+#include <iterator>
 
 // trim from start
 std::string &ltrim(std::string &s);

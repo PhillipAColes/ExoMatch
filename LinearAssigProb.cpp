@@ -10,8 +10,6 @@
 #include "Timer.h"
 #include <math.h>
 #include <iomanip>
-#include <utility>
-using namespace std;
 #define INF 100000000
 
 LinearAssigProb::LinearAssigProb(Input *pInput, ObsLinelist *Obs, CalcLinelist *Calc) : num_x_vert(0),
@@ -60,7 +58,7 @@ void LinearAssigProb::generateCostMatrix(){
 
     double maxcost = 0;
 
-    cost.resize(num_y_vert,vector<double>(num_y_vert));
+    cost.resize(num_y_vert,std::vector<double>(num_y_vert));
 
     printf("\nCoefficient of intensity contribution to cost matrix = %6.3f\n",cost_coeff);
 
@@ -273,20 +271,20 @@ return;
 }//end of augment() function
 
 
-void LinearAssigProb::reset(vector<int> assignments_obs2calc, vector<int> assignments_calc2obs){
+void LinearAssigProb::reset(std::vector<int> assignments_obs2calc, std::vector<int> assignments_calc2obs){
 
     printf("\nResetting LAP...\n");
 
-    vector<vector<double>> tmp_x_vert = std::move(x_vert);
-    vector<vector<double>> tmp_y_vert = std::move(y_vert);
-    vector<int>            tmp_x_vert_idex = std::move(x_vert_idex);
-    vector<int>            tmp_y_vert_idex = std::move(y_vert_idex);
+    std::vector<std::vector<double>> tmp_x_vert = std::move(x_vert);
+    std::vector<std::vector<double>> tmp_y_vert = std::move(y_vert);
+    std::vector<int> tmp_x_vert_idex = std::move(x_vert_idex);
+    std::vector<int> tmp_y_vert_idex = std::move(y_vert_idex);
 
     num_x_vert = 0;
     num_y_vert = 0;
     N_vert = 0;
 
-    for (int i = 0; i < tmp_x_vert.size() ; i++){
+    for (std::size_t i = 0; i < tmp_x_vert.size() ; i++){
         if(assignments_obs2calc[tmp_x_vert_idex[i]] == -1){
             x_vert.push_back(tmp_x_vert[i]);
             x_vert_idex.push_back(tmp_x_vert_idex[i]);
@@ -294,7 +292,7 @@ void LinearAssigProb::reset(vector<int> assignments_obs2calc, vector<int> assign
         }
     }
 
-    for (int j = 0; j < tmp_y_vert.size() ; j++){
+    for (std::size_t j = 0; j < tmp_y_vert.size() ; j++){
         if(assignments_calc2obs[tmp_y_vert_idex[j]] == -1){
             y_vert.push_back(tmp_y_vert[j]);
             y_vert_idex.push_back(tmp_y_vert_idex[j]);
@@ -302,8 +300,8 @@ void LinearAssigProb::reset(vector<int> assignments_obs2calc, vector<int> assign
         }
     }
 
-    cout << "Number of experimental lines in matching: " << num_x_vert << endl;
-    cout << "Number of theoretical lines in matching: " << num_y_vert << endl;
+    std::cout << "Number of experimental lines in matching: " << num_x_vert << std::endl;
+    std::cout << "Number of theoretical lines in matching: " << num_y_vert << std::endl;
 
     N_vert = num_y_vert;
 
@@ -321,7 +319,7 @@ void LinearAssigProb::reset(vector<int> assignments_obs2calc, vector<int> assign
 
 }
 
-void LinearAssigProb::readMatching(string matching_file_name){
+void LinearAssigProb::readMatching(std::string matching_file_name){
 
     printf("Matching to be read from file %s\n",matching_file_name.c_str());
 
@@ -332,13 +330,13 @@ void LinearAssigProb::readMatching(string matching_file_name){
         exit(0);
     }
 
-    string match_file_line;
+    std::string match_file_line;
 
     int i_tmp = 0;
 
     while(getline(infile,match_file_line)){
         match_file_line = trim(match_file_line);
-        vector<string> split_line = split(match_file_line);
+        std::vector<std::string> split_line = split(match_file_line);
         if( !isPositiveInt(split_line[0].c_str()) || !isPositiveInt(split_line[1].c_str())  ){
             printf("Error: matched file does not contain positive ints");
             exit(0);
@@ -368,22 +366,8 @@ void LinearAssigProb::readMatching(string matching_file_name){
                 swapped = true;
             }
         }
-        if (swapped == false) break;
+        if (!swapped){break;}
      }
-
-//    // Here we fill in xy and yx with the missing dummy lines
-//    i_tmp = 0;
-//    while(i_tmp < num_y_vert){
-//        if(std::count(xy.begin(),xy.end(),i_tmp) == 0){
-//            xy.push_back(i_tmp);
-////            yx.insert(yx.begin()+i_tmp,xy.size()-1);
-//        }
-//        yx[xy[i_tmp]] = i_tmp;
-//        x2y[i_tmp] = {i_tmp,xy[i_tmp]};
-//        i_tmp++;
-//
-//    }
-
 
 }
 
@@ -392,19 +376,24 @@ void LinearAssigProb::printMatching(Input *pInput, ObsLinelist *Obs, CalcLinelis
     printf("\nPrinting optimal matching:\n");
 
     for (int i = 0; i < num_x_vert; i++){
-        cout << setw(5) << i+1 << "   " << setw(5) << xy[i]+1 << "    "
-             << setw(12) << fixed << setprecision(6) << x_vert[i][0] << "    "  << setw(12) << scientific << setprecision(8) << x_vert[i][1] << "   "
-             << setw(12) << fixed << setprecision(6) << y_vert[xy[i]][0] << "    "  << setw(12) << scientific << setprecision(8) << y_vert[xy[i]][1];
+
+        std::cout << setw(5)    << i+1             << "   "            << setw(5)          << xy[i]+1 << "    "
+                  << setw(12)   << fixed           <<  setprecision(6) << x_vert[i][0]     << "    "  << setw(12)
+                  << scientific << setprecision(8) << x_vert[i][1]     << "   "
+                  << setw(12)   << fixed           <<  setprecision(6) << y_vert[xy[i]][0] << "    "  << setw(12)
+                  << scientific << setprecision(8) << y_vert[xy[i]][1];
+
         if(pInput->GetPrintMatchInfo()=="none"){
-            cout << endl;
+            std::cout << std::endl;
         }else if(pInput->GetPrintMatchInfo()=="obs"){
-            cout << "   |  Obs line:   " << trim((Obs->spec_lines)[x_vert_idex[i]]) << endl;
+            std::cout << "   |  Obs line:   "  << trim((Obs->spec_lines)[x_vert_idex[i]])      << std::endl;
         }else if(pInput->GetPrintMatchInfo()=="calc"){
-            cout << "   |  Calc line:   " << trim((Calc->spec_lines)[y_vert_idex[xy[i]]]) << endl;
+            std::cout << "   |  Calc line:   " << trim((Calc->spec_lines)[y_vert_idex[xy[i]]]) << std::endl;
         }else if(pInput->GetPrintMatchInfo()=="all"){
-            cout << "   |  Obs line:   " << trim((Obs->spec_lines)[x_vert_idex[i]])
-                 << "   |  Calc line:   " << trim((Calc->spec_lines)[y_vert_idex[xy[i]]]) << endl;
+            std::cout << "   |  Obs line:   "  << trim((Obs->spec_lines)[x_vert_idex[i]])
+                      << "   |  Calc line:   " << trim((Calc->spec_lines)[y_vert_idex[xy[i]]]) << std::endl;
         }
+
     }
     printf("\n\n");
 

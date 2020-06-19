@@ -5,3 +5,5 @@
  - GitHub userguide / readme (see github website for how to write documentation on github)
  - linting
  - more unit tests
+ - implement fiboncci heap
+ - implement doubling-technique for unbalanced assignment

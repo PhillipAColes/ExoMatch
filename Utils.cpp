@@ -5,18 +5,6 @@
  *      Author: Phillip
  */
 #include "Utils.h"
-#include <iterator>
-#include <sstream>
-#include <cstdarg>
-#include <stdio.h>
-#include <string>
-#include <cstdio>
-#include <cstring>
-#include <string>
-#include <iostream>
-#include <fstream>
-#include <vector>
-using namespace std;
 
 // Split string
 std::vector<std::string> split(std::string const &input) {
@@ -113,12 +101,12 @@ bool compStrings(int num,...){
 
 // return an error
 void retError(std::string &s){
-    cout << "Error: please check input for '" << s << "'" << endl;
+    std::cout << "Error: please check input for '" << s << "'" << std::endl;
     exit(0);
 }
 
 // return an error
-void retLLError(int line_num, string file_name){
+void retLLError(int line_num, std::string file_name){
     printf("Error: invalid input in line number %i of linelist file: %s\n",line_num,file_name.c_str());
     exit(0);
 }
@@ -126,33 +114,31 @@ void retLLError(int line_num, string file_name){
 // Place first 'nfields' tokens found in string into a vector.
 // Input is the string to be split (line), a character separator (separator),
 // and the number of tokens to be returned (nfields)
-vector<string> split_sub( string line, char separator , int nfields){
-    vector<string> split_line;
-    string::iterator start = line.begin();
-    string::iterator end = line.end();
-    string::iterator next = find(start,end,separator);
+std::vector<std::string> split_sub( std::string line, char separator , int nfields){
+    std::vector<std::string> split_line;
+    std::string::iterator start = line.begin();
+    std::string::iterator end = line.end();
+    std::string::iterator next = find(start,end,separator);
     int token_N = 0;
     while(next!=end && token_N < nfields){
-        string tokn = string(start,next);
+        std::string tokn = std::string(start,next);
         start = next + 1;
         next = find(start,end,separator);
         if(tokn == "")continue;
         split_line.push_back(tokn);
         token_N++;
     }
-    string tokn = string(start,next);
+    std::string tokn = std::string(start,next);
     split_line.push_back(tokn);
     return split_line;
 }
 
 
 void printCPPVersion(){
-
     if (__cplusplus == 201703L) std::cout << "C++17\n";
     else if (__cplusplus == 201402L) std::cout << "C++14\n";
     else if (__cplusplus == 201103L) std::cout << "C++11\n";
     else if (__cplusplus == 199711L) std::cout << "C++98\n";
     else std::cout << "pre-standard C++\n";
-
 }
 
