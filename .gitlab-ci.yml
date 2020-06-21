@@ -12,4 +12,4 @@ test:
   stage: test
   script:
     - make
-    - ExoMatch_unit_tests.exe
+    - ./ExoMatch_unit_tests.exe
