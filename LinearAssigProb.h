@@ -48,6 +48,7 @@ private:
     void augment();
 
 public:
+    LinearAssigProb();// constructor for testing only
     LinearAssigProb(Input *pInput, ObsLinelist *pObsLinelist, CalcLinelist *pCalcLinelist);
     ~LinearAssigProb();
     void Hungarian();
