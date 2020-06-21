@@ -18,7 +18,7 @@ For the most comprehensive guide to the code please see the associated [document
 
 1. Download or clone the repo to your local machine
 2. `cd` to the directory containing the local copy of the repo
-2. run `make` with the makefile provided. Alternatively you can use your own build chain
+3. run `make` with the makefile provided. Alternatively you can use your own build chain
 
 ### Run
 
@@ -44,7 +44,10 @@ Please see the [documentation](https://github.com/PhillipAColes/ExoMatch/blob/ma
 
 ## Running tests
 
-Test files are located in...
+Test files are located in `.\test`. To run the tests please
+1. `cd` to the directory `.\test\`
+2. build and compile the test binary by entering `make` into the terminal
+3. run the tests using the command `.\ExoMatch_unit_tests.exe`
 
 ## Contributing
 
