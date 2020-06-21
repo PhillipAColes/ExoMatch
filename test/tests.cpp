@@ -35,9 +35,5 @@ void test::testHungarian(){
     LAP.Hungarian();
     std::vector<std::vector<int>> x2y = LAP.GetMatching();   
     std::vector<std::vector<int>> expected_x2y = {{0,1},{1,2},{2,0}};
-    if(x2y == expected_x2y){
-        FlagTest("Hungarian",1);
-    }else{
-        FlagTest("Hungarian",0);
-    }
+    FlagTest( "Hungarian" , x2y == expected_x2y );
 }
