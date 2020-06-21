@@ -1,0 +1,15 @@
+image: gcc
+
+before_script:
+    # Install build dependencies
+    - apt-get update && apt-get -y install cmake
+    - cd ./test
+
+stages:
+    - test
+
+test:
+  stage: test
+  script:
+    - make
+    - ExoMatch_unit_tests.exe
