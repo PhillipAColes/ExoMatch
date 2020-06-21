@@ -1,4 +1,4 @@
-obsfile 5d8bb1bf_unc.inp
+obsfile 5d8bb1bf.inp
 calcfile CH4_YT10to10_296K_2300-3400_E-25_exp.inp
 calcIthresh 1.0e-22
 obsIthresh 2.0e-22
