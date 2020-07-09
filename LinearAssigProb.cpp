@@ -399,13 +399,17 @@ void LinearAssigProb::printMatching(Input *pInput, ObsLinelist *Obs, CalcLinelis
 
 }
 
+
 // The following constructor is only used for testing
-LinearAssigProb::LinearAssigProb() : num_x_vert(3),
-                                     num_y_vert(3),
-                                     N_vert(3),
-                                     max_match(3),
-                                     cost_coeff(1.0),
-                                     x_vert({{2,1},{3,1},{1,1}}),
-                                     y_vert({{1.1,1},{2.1,1},{3.1,1}}){
+LinearAssigProb::LinearAssigProb(std::vector<std::vector<double>> & x_vert_test,
+                                 std::vector<std::vector<double>> & y_vert_test,
+                                 double cost_coeff_test) :
+                                 x_vert(x_vert_test),
+                                 y_vert(y_vert_test),
+                                 cost_coeff(cost_coeff_test){
     printf("Initializing test graph for matching...\n");
+    num_x_vert = (int) x_vert.size();
+    num_y_vert = (int) y_vert.size();
+    N_vert = num_y_vert;
+    max_match = num_x_vert;
 };

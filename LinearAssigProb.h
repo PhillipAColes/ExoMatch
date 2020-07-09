@@ -48,8 +48,10 @@ private:
     void augment();
 
 public:
-    LinearAssigProb();// constructor for testing only
     LinearAssigProb(Input *pInput, ObsLinelist *pObsLinelist, CalcLinelist *pCalcLinelist);
+    LinearAssigProb(std::vector<std::vector<double>> & x_vert_test, // constructor for testing only
+                    std::vector<std::vector<double>> & y_vert_test,
+                    double cost_coeff_test);
     ~LinearAssigProb();
     void Hungarian();
     void reset(std::vector<int> obs2calc, std::vector<int> calc2obs);
