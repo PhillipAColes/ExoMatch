@@ -64,7 +64,7 @@ int main(int argc, char* argv[]){
         if(!perform_gscds_tf) break;
 
         comb_diffs.setUp(LAP_ptr,obs_linelist_ptr);
-        comb_diffs.findPartners(obs_linelist_ptr, calc_linelist_ptr, LAP_ptr);
+        comb_diffs.findPartners(obs_linelist_ptr, calc_linelist_ptr);
 
         if(iter < N_iter-1)
             LAP.reset(comb_diffs.getAssignmentsObs2Calc(),comb_diffs.getAssignmentsCalc2Obs());

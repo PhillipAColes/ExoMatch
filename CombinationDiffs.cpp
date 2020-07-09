@@ -72,7 +72,7 @@ void CombinationDiffs::setUp(LinearAssigProb *pLAP, ObsLinelist *Obs){
 }
 
 
-void CombinationDiffs::findPartners(ObsLinelist *Obs, CalcLinelist *Calc, LinearAssigProb *pLAP){
+void CombinationDiffs::findPartners(ObsLinelist *Obs, CalcLinelist *Calc){
 
     printf("Performing ground state combination differences:\n");
 

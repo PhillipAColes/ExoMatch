@@ -40,7 +40,7 @@ public:
     CombinationDiffs(Input *pInput, ObsLinelist *Obs, CalcLinelist *Calc);
     ~CombinationDiffs();
     void setUp(LinearAssigProb *pLAP, ObsLinelist *Obs);
-    void findPartners(ObsLinelist *Obs, CalcLinelist *Calc, LinearAssigProb *pLAP);
+    void findPartners(ObsLinelist *Obs, CalcLinelist *Calc);
     vector<int> getAssignmentsObs2Calc(){return assignments_obs2calc;};
     vector<int> getAssignmentsCalc2Obs(){return assignments_calc2obs;};
 };
