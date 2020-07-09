@@ -72,19 +72,7 @@ void CalcLinelist::initialize(){
                 retLLError(i_tmp+1, ll_file_name);
         }
 
-        wn.push_back(atof(line_tmp[0].c_str()));
-
-        intens.push_back(atof(line_tmp[1].c_str()));
-
-        vector<string> up_quanta_tmp = slice_vec(line_tmp,2,1+num_of_quanta);
-        upper_quanta.push_back(up_quanta_tmp);
-
-        upper_energy.push_back(atof(line_tmp[2+num_of_quanta].c_str()));
-
-        vector<string> lw_quanta_tmp = slice_vec(line_tmp,3+num_of_quanta,2+2*num_of_quanta);
-        lower_quanta.push_back(lw_quanta_tmp);
-
-        lower_energy.push_back(atof(line_tmp[2*num_of_quanta+3].c_str()));
+        pushLine(line_tmp);
 
         i_tmp++;
     }
@@ -95,6 +83,24 @@ void CalcLinelist::initialize(){
     Timer::getInstance().printTimerData("read calc linelist");
 
     fclose(ll_file);
+
+}
+
+void CalcLinelist::pushLine(std::vector<std::string> & line){
+
+    wn.push_back(atof(line[0].c_str()));
+
+    intens.push_back(atof(line[1].c_str()));
+
+    vector<string> up_quanta_tmp = slice_vec(line,2,1+num_of_quanta);
+    upper_quanta.push_back(up_quanta_tmp);
+
+    upper_energy.push_back(atof(line[2+num_of_quanta].c_str()));
+
+    vector<string> lw_quanta_tmp = slice_vec(line,3+num_of_quanta,2+2*num_of_quanta);
+    lower_quanta.push_back(lw_quanta_tmp);
+
+    lower_energy.push_back(atof(line[2*num_of_quanta+3].c_str()));
 
 }
 

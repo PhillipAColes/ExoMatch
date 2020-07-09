@@ -27,6 +27,7 @@ class CalcLinelist : public BaseLinelist {
     CalcLinelist(Input *pInput);
     ~CalcLinelist();
     void initialize();
+    void pushLine(std::vector<std::string> & line);
     vector<vector<string>> GetUpperQuanta(){return upper_quanta;}
     vector<double>         GetUpperEnergy(){return upper_energy;}
     vector<vector<string>> GetLowerQuanta(){return lower_quanta;}

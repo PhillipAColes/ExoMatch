@@ -24,6 +24,7 @@ class ObsLinelist : public BaseLinelist {
     ObsLinelist(Input *pInput);//constructor
     ~ObsLinelist();//destructor
     void initialize();
+    void pushLine(std::vector<std::string> & line, double line_cd_thresh);
     vector<double> GetCDThresh(){return cd_thresh;}
 };
 

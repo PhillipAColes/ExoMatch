@@ -66,7 +66,7 @@ void ObsLinelist::initialize(){
                      retLLError(i_tmp+1, ll_file_name);
              }
 
-             cd_thresh.push_back(atof(line_tmp[2].c_str()));
+             pushLine(line_tmp,atof(line_tmp[2].c_str()));
 
          }else{
 
@@ -77,12 +77,9 @@ void ObsLinelist::initialize(){
                      retLLError(i_tmp+1, ll_file_name);
              }
 
-             cd_thresh.push_back(tmp_thresh_cd);
+             pushLine(line_tmp,tmp_thresh_cd);
+
          }
-
-             wn.push_back(atof(line_tmp[0].c_str()));
-
-             intens.push_back(atof(line_tmp[1].c_str()));
 
         i_tmp++;
     }
@@ -93,6 +90,16 @@ void ObsLinelist::initialize(){
     Timer::getInstance().printTimerData("read obs linelist");
 
     fclose(ll_file);
+
+}
+
+void ObsLinelist::pushLine(std::vector<std::string> & line, double line_cd_thresh){
+
+    wn.push_back(atof(line[0].c_str()));
+
+    intens.push_back(atof(line[1].c_str()));
+
+    cd_thresh.push_back(line_cd_thresh);
 
 }
 
